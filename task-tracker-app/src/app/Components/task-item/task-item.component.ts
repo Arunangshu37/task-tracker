@@ -10,9 +10,9 @@ import { Priority } from 'src/app/Models/Priority';
 export class TaskItemComponent implements OnInit {
 
   @Output()
-  deleteEvent: EventEmitter<Task> = new EventEmitter();
+  deleteTaskEvent: EventEmitter<Task> = new EventEmitter();
   @Output()
-  updateEvent: EventEmitter<Task> = new EventEmitter();
+  updateTaskEvent: EventEmitter<Task> = new EventEmitter();
   
   status = Status;
   priority = Priority;
@@ -25,10 +25,10 @@ export class TaskItemComponent implements OnInit {
   }
 
   deleteTask(task: Task) {
-    this.deleteEvent.emit(task);
+    this.deleteTaskEvent.emit(task);
   }
   updateTask(task: Task) {
-    this.updateEvent.emit(task);
+    this.updateTaskEvent.emit(task);
   }
 
   getStatusLabel(id: number):string { 

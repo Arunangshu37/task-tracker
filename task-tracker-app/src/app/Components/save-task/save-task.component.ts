@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Task } from 'src/app/Models/Task';
+import { TaskApiService } from 'src/app/Shared/task-api.service';
+import { statusList } from 'src/app/Models/Status';
+import { priorityList } from 'src/app/Models/Priority';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-save-task',
@@ -7,9 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SaveTaskComponent implements OnInit {
 
-  constructor() { }
+  task: Task = new Task();
+  statusList  = statusList
+  priorityList  = priorityList
+  constructor(private taskApi: TaskApiService, private router: Router) {
+    let task: any = this.router.getCurrentNavigation()?.extras.state?.['task'];
+    if (task.id!=0) {
+      this.task = task;
+      console.log(this.task);
+    } else {
+      this.task = new Task();
+    }
+  }
 
   ngOnInit(): void {
   }
-
+  saveTaskData(taskForm: any) { 
+    if (this.task.id != 0) {
+      this.taskApi.putTask(this.task).subscribe((response) => alert(response.message));
+    } else { 
+      this.taskApi.postTask(this.task).subscribe((response) => alert(response.message));
+    }
+    taskForm.resetForm();
+  }
 }

@@ -1,6 +1,41 @@
 <h2>
     All tasks
 </h2>
-<div class="d-flex flex-wrap justify-content-evenly">
-    <app-task-item  *ngFor="let task of taskList"  [task] = "task"></app-task-item>
+<div style=" display:block;height: 550px; overflow-y:auto;">
+    <div>
+        <div class="d-flex flex-column align-items-center" > 
+            <h6 class="align-self-start px-1 mb-1 mt-2">Sort by date </h6>
+            <select class="form-select" name="filter" (change)="sortData($event.target)" id="">
+                <option value="dateAsc">Older to newer</option>
+                <option value="dateDesc">Newer to older</option>
+            </select>
+        </div>
+        <div class="d-flex flex-column align-items-center" > 
+            <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks </h6>
+            <select class="form-select" name="filter" (change)="filterData($event.target)" id="">
+                <option value="high">High Priority</option>
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="ongoing">On going tasks</option>
+                <option value="complete">Completed tasksy</option>
+                <option value="onhold">Tasks on hold</option>
+                <option value="new">New Tasks</option>
+                <option value="all">All Tasks</option>
+            </select>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+            <h6 class="align-self-start px-1 mb-1 mt-2">Search Task </h6>
+            <div class="form-floating mb-3 w-100">
+                <input (keyup)="searchTask($event.target)" type="text" class="form-control" id="floatingInput" placeholder="Search a task">
+                <label for="floatingInput">Type any keyword that might be related to  a task</label>
+            </div>
+        </div>
+    </div>
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    <div class="d-flex flex-wrap ">
+        <app-task-item  *ngFor="let task of taskList | paginate : {itemsPerPage: 6, currentPage: page}"  
+        [task] = "task"
+        (deleteTaskEvent)="processDeleteTaskRequest($event)" 
+        (updateTaskEvent)="setUpTaskForm($event)"></app-task-item>
+    </div>
 </div>
