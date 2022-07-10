@@ -2,17 +2,17 @@ export const Priority = {
     High: {
         id: 2,
         label: "High",
-        color: "rgb(177, 45, 45)"
+        color: "rgb(242, 59, 81)"
     },
     Medium: {
         id: 1,
         label: "Medium",
-        color: "rgb(253, 232, 116)"
+        color: "rgb(242, 145, 59)"
     },
     Low: {
         id: 0,
         label: "Low",
-        color: "rgb(167, 231, 255)"
+        color: "rgb(59, 179, 242)"
     }
 }
 export var priorityList = Object.entries(Priority).map((entry) => {

@@ -15,6 +15,7 @@ import { LogoutComponent } from './Components/logout/logout.component';
 import { AnalyticsComponent } from './Components/analytics/analytics.component';
 import { AboutComponent } from './Components/about/about.component';
 import { HttpClientModule} from "@angular/common/http"
+import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,12 +29,14 @@ import { HttpClientModule} from "@angular/common/http"
     TaskItemComponent,
     LogoutComponent,
     AnalyticsComponent,
-    AboutComponent
+    AboutComponent,
+   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

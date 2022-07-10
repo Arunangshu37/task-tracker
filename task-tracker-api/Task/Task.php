@@ -15,7 +15,7 @@ class Task{
     public function __construct($conn)
     {
         $this->conn = $conn;
-        $this->profileId = $_SESSION["profile"];
+        $this->profileId = $_SESSION["profile"] || 1;
     }
 
     public function get_all_tasks()

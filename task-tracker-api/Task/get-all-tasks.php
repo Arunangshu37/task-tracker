@@ -6,6 +6,7 @@ if($_SERVER["REQUEST_METHOD"]=="GET")
 {
     session_start();
     $conn = new Connection($ENVIRONMENT);
+    
     if(!isset($_SESSION["profile"]))
     {
         echo json_encode(array("responseCode"=>401, "message"=> "No user is logged in at present. Please login to access this page"));

@@ -1,8 +1,6 @@
 <h2>
     All tasks
 </h2>
-<div class="dflex flex-wrap justify-content-evenly">
-    <app-task-item 
-        *ngFor=""
-    ></app-task-item>
+<div class="d-flex flex-wrap justify-content-evenly">
+    <app-task-item  *ngFor="let task of taskList"  [task] = "task"></app-task-item>
 </div>

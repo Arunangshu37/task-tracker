@@ -1,0 +1,72 @@
+.my-card{
+    display:flex;
+    padding:5px;
+    width: 270px;
+    height:125px;
+    margin:5px;
+    border: 0;
+    background: white;
+    flex-direction: column;
+    border-radius: 3px;
+    box-shadow: 0px 0px 3px 1px lightgrey;
+}
+.my-header{
+    max-height: 100px;
+    height: 70px;
+    text-align: justify;
+    padding: 5px;
+    overflow-y: auto;
+}
+.glow{
+    box-shadow: 0px 0px 1px 0px grey;
+    border-radius: 2px;
+}
+.glow:hover{
+    box-shadow: 0px 0px 2px 1px grey;
+}
+.my-card:hover {
+    box-shadow: 0px 0px 4px 2px lightgrey;
+}
+.my-footer{
+    padding: 5px;
+}
+.new{
+    border-left: 5px solid rgb(37, 121, 255);
+}
+.new-badge{
+    background-color:rgb(37, 121, 255);
+}
+
+
+.onhold{
+    border-left: 5px solid rgb(60, 60, 60);
+}
+.onhold-badge{
+   background-color:  rgb(60, 60, 60);
+}
+
+.ongoing{
+    border-left: 5px solid rgb(255, 179, 37);
+}
+.ongoing-badge{
+    background-color:  rgb(255, 179, 37);
+}
+
+.complete{
+    border-left: 5px solid rgb(52, 194, 85);
+}
+.complete-badge{
+    background-color:  rgb(52, 194, 85);
+}
+
+.high{
+    background-color: rgb(249 216 216 / 98%);
+}
+.low{
+    background-color: rgb(236 255 255 / 63%);
+
+}
+.medium{
+
+    background-color: rgb(247 253 205 / 98%);
+}

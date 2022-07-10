@@ -1,0 +1,17 @@
+.bar-responsive{
+    width: 350px;
+    
+}
+.doughnut-responsive{
+    width:350px;
+}
+
+@media only screen and (max-width:991px)
+{
+    .bar-responsive{
+        width: 250px;
+    }
+    .doughnut-responsive{
+        width:250px;
+    }
+}
