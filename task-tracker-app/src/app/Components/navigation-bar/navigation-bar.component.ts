@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit {
-
+  isLoggedIn: boolean | undefined;
   constructor() { }
 
   ngOnInit(): void {
