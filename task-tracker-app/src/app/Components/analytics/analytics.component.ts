@@ -37,48 +37,58 @@ export class AnalyticsComponent implements OnInit {
       if (response.responseCode == 200) { 
         priorityList.forEach((entry:any) => { 
           let object = response.priorityAnalytics.find((item:any) => { return item.priority == entry.id });
-          this.priorityData.labels.push(entry?.label);
-          this.priorityData.datasets[0].data.push(object.taskCount);
-          this.priorityData.datasets[0].backgroundColor.push(entry?.color);
+          if(object != null){
+            this.priorityData.labels.push(entry?.label);
+            this.priorityData.datasets[0].data.push(object.taskCount);
+            this.priorityData.datasets[0].backgroundColor.push(entry?.color);
+          }
+          else{
+            this.priorityData.labels.push(entry?.label);
+            this.priorityData.datasets[0].data.push(0);
+            this.priorityData.datasets[0].backgroundColor.push(entry?.color);
+          }
         });
         statusList.forEach((entry:any) => { 
           let object = response.statusAnalytics.find((item:any) => { return item.status == entry.id });
-          this.statusData.labels.push(entry?.label);
-          this.statusData.datasets[0].data.push(object.taskCount);
+          if(object!=null){
+            this.statusData.labels.push(entry?.label);
+            this.statusData.datasets[0].data.push(object.taskCount);
+          }else{
+            this.statusData.labels.push(entry?.label);
+            this.statusData.datasets[0].data.push(0);
+          }
          
         });
-      }
       
-
-
-      new Chart("priorityCount", {
-        type: 'doughnut',
-        data: this.priorityData,
-        options: {
-
-          plugins: {
-            legend: {
-              position: 'right',
+        new Chart("priorityCount", {
+          type: 'doughnut',
+          data: this.priorityData,
+          options: {
+  
+            plugins: {
+              legend: {
+                position: 'right',
+              }
             }
-          }
-        },
-      });
-
-      new Chart("statusCount", {
-        type: 'bar',
-        data: this.statusData,
-        options: {
-          plugins: {
-            legend: {
-              position: 'top',
-            },
-            title: {
-              display: true,
-              text: 'Task status'
+          },
+        });
+  
+        new Chart("statusCount", {
+          type: 'bar',
+          data: this.statusData,
+          options: {
+            plugins: {
+              legend: {
+                position: 'top',
+              },
+              title: {
+                display: true,
+                text: 'Task status'
+              }
             }
-          }
-        },
-      });
+          },
+        });
+      }
     });
   }
 

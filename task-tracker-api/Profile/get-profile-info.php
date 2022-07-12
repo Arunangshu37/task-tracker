@@ -1,7 +1,7 @@
 <?php
 include_once("../config.php");
 
-    if($_SERVER["REQUEST_METHOD"]=="POST")
+    if($_SERVER["REQUEST_METHOD"]=="GET")
     {
         $profileInfo =array();
         if(isset($_SESSION["profile"]))
@@ -11,7 +11,7 @@ include_once("../config.php");
         }
         else{
             $profileInfo = array("profileId"=>0, "username"=>"");
-            $data = array("responseCode"=>404,  "prodileInfo"=> $prodileInfo, "message"=>"No profile is present in the session. Please log in ");
+            $data = array("responseCode"=>404,  "prodileInfo"=> $profileInfo, "message"=>"No profile is present in the session. Please log in ");
         }
         echo json_encode($data);
     }

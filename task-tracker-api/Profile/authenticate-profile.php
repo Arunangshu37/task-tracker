@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     $data = json_decode(file_get_contents("php://input"));
     $profile->email = $data->email;
     $profile->password = $data->password;
-    echo json_encode($profile->signInWithEmailAndPassword());
+    echo json_encode($profile->sign_in_with_email_and_password());
 }
 else
 {

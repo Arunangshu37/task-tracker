@@ -6,6 +6,7 @@ import { AuthComponent } from './Components/auth/auth.component';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { HomeComponent } from './Components/home/home.component';
 import { LogoutComponent } from './Components/logout/logout.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 import { SaveTaskComponent } from './Components/save-task/save-task.component';
 import { TaskComponent } from './Components/task/task.component';
 
@@ -20,6 +21,7 @@ const routes: Routes = [
       { path: "logout", component:LogoutComponent},
       { path: "analytics", component: AnalyticsComponent },
       { path: "calendar", component: TaskComponent },
+      { path: "profile", component:ProfileComponent },
     ]
   },
   { path: "login", component: AuthComponent},

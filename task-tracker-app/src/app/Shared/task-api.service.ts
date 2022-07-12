@@ -1,17 +1,19 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class TaskApiService {
 
   constructor(private http : HttpClient) { }
+ 
+  
 
 
   getAllTasks() { 
-    return this.http.get("http://localhost/task-tracker/task-tracker-api/Task/get-all-tasks.php").pipe(
+    return this.http.get(environment.baseUrl+"task-tracker-api/Task/get-all-tasks.php").pipe(
       map(function (response): Object {
         return response;
       })
@@ -33,14 +35,14 @@ export class TaskApiService {
         taskId: id
       }
     }
-    return this.http.delete("http://localhost/task-tracker/task-tracker-api/Task/delete-task.php", options).pipe(
+    return this.http.delete(environment.baseUrl+"task-tracker-api/Task/delete-task.php", options).pipe(
       map(function (response): Object {
         return response;
       })
     );
   }
   postTask(task:any) { 
-    return this.http.post("http://localhost/task-tracker/task-tracker-api/Task/save-task.php", task).pipe(
+    return this.http.post(environment.baseUrl+"task-tracker-api/Task/save-task.php", task).pipe(
       map((response: any) => { 
         return response;
       })

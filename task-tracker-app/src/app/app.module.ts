@@ -17,6 +17,9 @@ import { AboutComponent } from './Components/about/about.component';
 import { HttpClientModule} from "@angular/common/http"
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProfileComponent } from './Components/profile/profile.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,14 +34,15 @@ import { NgxPaginationModule } from 'ngx-pagination';
     LogoutComponent,
     AnalyticsComponent,
     AboutComponent,
-   
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

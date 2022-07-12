@@ -6,7 +6,7 @@
             session_destroy();
            
         }
-        $data = array("responseCode"=>200,  "message"=>"Session has been cleaned");
+        $data = array("responseCode"=>200,  "message"=>"Logged out!");
         echo json_encode($data);
     }
     else

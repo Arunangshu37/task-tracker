@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProfileApiService } from 'src/app/Shared/profile-api.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -6,8 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit {
-  isLoggedIn: boolean | undefined;
-  constructor() { }
+  isLoggedIn: boolean =false;
+  constructor(private profileApi: ProfileApiService) {
+    this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
+      if(response.responseCode == 200){
+        this.isLoggedIn = true;
+      }
+      
+    })
+   }
 
   ngOnInit(): void {
   }

@@ -1,0 +1,18 @@
+#auth-form{
+    width: 380px;
+}
+.auth-back{
+    background-image: url(/assets/auth-background.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 91vh;
+}
+.error{
+    color:rgb(166, 18, 18);
+}
+@media only screen and (max-width:991px) {
+    #auth-form{
+        width: 100%;
+    }
+}

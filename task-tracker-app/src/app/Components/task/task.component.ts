@@ -31,7 +31,6 @@ export class TaskComponent implements OnInit {
 
   getTasks() {
     this.taskApi.getAllTasks().subscribe((response: any) => {
-      console.log(response);
       if (response.responseCode == 200) {
         this.backUpTaskList = response.data;
         this.taskList = response.data;
