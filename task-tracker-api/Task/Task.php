@@ -15,7 +15,7 @@ class Task{
     public function __construct($conn)
     {
         $this->conn = $conn;
-        $this->profileId = $_SESSION["profile"] || 1;
+        $this->profileId = $_SESSION["profile"];
     }
 
     public function get_all_tasks()
@@ -65,7 +65,7 @@ class Task{
             }
             else
             {
-                return array("responseCode"=> 404, "message"=> "No result found : ".$this->conn->real_escape_string($this->conn->error), "data"=>$task_array);
+                return array("responseCode"=> 404, "message"=> "No result found : ".$this->conn->real_escape_string($this->conn->error), "data"=>$statusAnalytics);
             }
         
             $queryPriorityCount = "SELECT COUNT('id') AS taskCount, `priority` FROM `task`  WHERE `profileId` = ".$this->profileId." GROUP BY `priority`";
@@ -80,7 +80,7 @@ class Task{
             }
             else
             {
-                return array("responseCode"=> 404, "message"=> "No result found", "data"=>$task_array);
+                return array("responseCode"=> 404, "message"=> "No result found", "data"=>$priorityAnalytics);
             }
             return array("responseCode"=> 200, "message"=> "Result found", "statusAnalytics"=>$statusAnalytics, "priorityAnalytics"=> $priorityAnalytics);
 
@@ -117,9 +117,9 @@ class Task{
     {
         try
         {
-            $query = "UPDATE `task` SET  `title` = ? , `description` = ?, `status`= ?,  `createdOn`= ?,`priority` = ? WHERE `id` = ? AND `profileId`= ?  ";
+            $query = "UPDATE `task` SET  `title` = ? , `description` = ?, `status`= ?,`priority` = ? WHERE `id` = ? AND `profileId`= ?  ";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("ssiisii",$this->title, $this->description, $this->status, $this->createdOn,$this->priority, $this->id, $this->profileId);
+            $stmt->bind_param("ssiiii",$this->title, $this->description, $this->status,$this->priority, $this->id, $this->profileId);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"Task updated successfully!");

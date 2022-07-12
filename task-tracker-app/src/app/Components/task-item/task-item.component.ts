@@ -8,15 +8,19 @@ import { Priority } from 'src/app/Models/Priority';
   styleUrls: ['./task-item.component.css']
 })
 export class TaskItemComponent implements OnInit {
+  status = Status;
+  priority = Priority;
+  statusList = statusList;
 
   @Output()
   deleteTaskEvent: EventEmitter<Task> = new EventEmitter();
   @Output()
   updateTaskEvent: EventEmitter<Task> = new EventEmitter();
   
-  status = Status;
-  priority = Priority;
-  statusList = statusList;
+  @Output()
+  updateStatusEvent: EventEmitter<Task> = new EventEmitter();
+  
+ 
   @Input()
   task: Task = new Task();
   constructor() { }
@@ -35,5 +39,8 @@ export class TaskItemComponent implements OnInit {
     let obj: any = this.statusList.filter((element: any) => { return id == element.id });
 
     return obj[0].label;
+  }
+  changeStatus(task:Task){
+    this.updateStatusEvent.emit(task);
   }
 }

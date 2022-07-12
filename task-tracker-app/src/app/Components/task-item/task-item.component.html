@@ -38,7 +38,7 @@
                     <label for="">{{task.createdOn}}</label>
                 </p>
                 <p class="my-auto">
-                    <select class="form-select" name="status" [(ngModel)]="task.status" id="">
+                    <select class="form-select" (change)="changeStatus(task)" name="status" [(ngModel)]="task.status" id="">
                         <option [value]="st.id" *ngFor="let st of statusList;" >{{st.label}}</option>
                     </select>
                 </p>

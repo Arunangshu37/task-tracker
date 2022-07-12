@@ -10,18 +10,31 @@
                 <option value="dateDesc">Newer to older</option>
             </select>
         </div>
-        <div class="d-flex flex-column align-items-center" > 
-            <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks </h6>
-            <select class="form-select" name="filter" (change)="filterData($event.target)" id="">
-                <option value="high">High Priority</option>
-                <option value="low">Low Priority</option>
-                <option value="medium">Medium Priority</option>
-                <option value="ongoing">On going tasks</option>
-                <option value="complete">Completed tasksy</option>
-                <option value="onhold">Tasks on hold</option>
-                <option value="new">New Tasks</option>
-                <option value="all">All Tasks</option>
-            </select>
+        <div class="d-flex flex-wrap mt-2" > 
+            <input type="checkbox" name="priorityFilterFlag" [(ngModel)]="statusFilterEnable" 
+            [checked]="statusFilterEnable" id="priorityFlag" class="form-check-input my-auto mx-2">
+            <div class="d-flex flex-column my-auto mx-2">
+                <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Priority </h6>
+                <select [disabled]="!statusFilterEnable" class="form-select" name="filterByStatus" 
+                (change)="filterTaskByStatus($event.target)" id="status" >
+                    <option [value]="statusItem.id" 
+                    *ngFor="let statusItem of statusList" >
+                        {{statusItem.label}}
+                    </option>
+                </select>
+            </div>
+            <input type="checkbox" name="statusFilterFlag"  [(ngModel)]="priorityFilterEnable"
+            [checked]="priorityFilterEnable" id="priorityFlag" id="statusFlag" class="form-check-input my-auto mx-2">
+            <div class="d-flex flex-column my-auto mx-2">
+                <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Status </h6>
+                <select [disabled]="!priorityFilterEnable" class="form-select" name="filterByPriority" 
+                (change)="filterTaskByPriority($event.target)" id="priority">
+                    <option [value]="priorityItem.id" 
+                    *ngFor="let priorityItem of priorityList" >
+                    {{priorityItem.label}}</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary m-auto" (click)="reset()">Reset data</button>
         </div>
         <div class="d-flex flex-column align-items-center">
             <h6 class="align-self-start px-1 mb-1 mt-2">Search Task </h6>
@@ -36,6 +49,7 @@
         <app-task-item  *ngFor="let task of taskList | paginate : {itemsPerPage: 6, currentPage: page}"  
         [task] = "task"
         (deleteTaskEvent)="processDeleteTaskRequest($event)" 
-        (updateTaskEvent)="setUpTaskForm($event)"></app-task-item>
+        (updateTaskEvent)="setUpTaskForm($event)"
+        (updateStatusEvent)="updateStatus($event)"></app-task-item>
     </div>
 </div>

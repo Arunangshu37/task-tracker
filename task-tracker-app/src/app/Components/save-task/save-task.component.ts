@@ -17,7 +17,7 @@ export class SaveTaskComponent implements OnInit {
   priorityList  = priorityList
   constructor(private taskApi: TaskApiService, private router: Router) {
     let task: any = this.router.getCurrentNavigation()?.extras.state?.['task'];
-    if (task.id!=0) {
+    if (task!=null) {
       this.task = task;
       console.log(this.task);
     } else {

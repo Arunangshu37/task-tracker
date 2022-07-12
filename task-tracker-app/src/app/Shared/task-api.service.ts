@@ -47,7 +47,7 @@ export class TaskApiService {
     );
   }
   putTask(task:any) { 
-    return this.http.put("http://localhost/task-tracker/task-tracker-api/Task/save-task.php", task).pipe(
+    return this.http.put("http://localhost/task-tracker/task-tracker-api/Task/update-task.php", task).pipe(
       map((response: any) => { 
         return response;
       })

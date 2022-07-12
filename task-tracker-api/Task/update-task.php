@@ -18,7 +18,6 @@ if($_SERVER["REQUEST_METHOD"]=="PUT")
         $task->description = $data->description;
         $task->status = $data->status;
         $task->profileId = $data->profileId;
-        $task->createdOn = $data->createdOn;
         $task->priority = $data->priority;
         echo json_encode($task->update());
     }

@@ -4,14 +4,14 @@
 <ng-template #elseBlock>
     <h2>Create a new task!</h2>
 </ng-template>
-<form action="" #taskForm="ngForm" (submit)="saveTaskData(taskForm)">
+<form class="d-flex flex-column align-items-stretch " action="" #taskForm="ngForm" (submit)="saveTaskData(taskForm)">
     <div class="mb-3">
         <label for="taskTitle" class="form-label">Title</label>
         <input [(ngModel)]="task.title" name="title" type="text" class="form-control" id="taskTitle" placeholder="Title of the task goes here!">
     </div>
     <div class="mb-3">
-        <label for="selectTaskStatus">Assign a status to the task</label>
-        <select [(ngModel)]="task.status" name="status" id="selectTaskStatus">
+        <label class="form-label" for="selectTaskStatus">Assign a status to the task</label>
+        <select class="form-select" [(ngModel)]="task.status" name="status" id="selectTaskStatus">
             <option [value]="status.id" *ngFor="let status of statusList;">{{status.label}}</option>
         </select>
     </div>
@@ -20,10 +20,10 @@
             <input [(ngModel)]="task.priority" class="form-check-input" type="radio" name="priority"[id]="'taskPriority'+priority.id" [value]="priority.id">
             <label class="form-check-label" [for]="'taskPriority'+priority.id">{{priority.label}}</label>
         </div>
-        
     </div>
     <div class="mb-3">
         <label for="taskDescription" class="form-label">Describe the task</label>
         <textarea [(ngModel)]="task.description" name="description" class="form-control" id="taskDescription" rows="3"></textarea>
     </div>
+    <button type="submit" class="btn btn-primary align-self-end w-50">save</button>
 </form>
