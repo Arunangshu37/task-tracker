@@ -1,6 +1,6 @@
 <?php
 
-error_Reporting(0);
+// error_reporting(0);
 class Profile{
     public $id = 0;
     public $email = "";
@@ -8,13 +8,15 @@ class Profile{
     public $firstName ="";
     public $lastName = "";
     public $createdOn = "";
-
+    public $token = 0;
+    public $image = null;
+    public $imagePath = "";
     private $conn= null;
 
     function __construct($conn)
     {
         $this->conn = $conn;
-        $this->id = $_SESSION['prodile'];
+        $this->id = $_SESSION['profile'];
     }
 
     function sign_in_with_email_and_password(){
@@ -50,7 +52,7 @@ class Profile{
         try
         {
             
-            $query = "SELECT `id`, `firstName`, `lastName`, `createdOn`, `token`, `imagePath` FROM `profile` WHERE `id` = ?";
+            $query = "SELECT `id`, `firstName`, `lastName`, `createdOn`, `token`, `imagePath`, `email` FROM `profile` WHERE `id` = ?";
             $stmt = $this->conn->prepare($query);
             $stmt->bind_param("i", $this->id);
             $stmt->execute();
@@ -69,6 +71,43 @@ class Profile{
         {
             return array("responseCode"=>500, "message"=>"An exception occcured  :".$exception);
         }
+    }
+
+    function update_profile_info()
+    {
+        try
+        {
+            $query = "";
+            $stmt = NULL;
+            $this->imagePath = $this->save_profile_image($this->image);
+            return array("responseCode"=>200, "profile"=>$this);
+        }
+        catch(Throwable $exception)
+        {
+            return array("responseCode"=>500, "message"=>"An exception occured : ".$exception);
+        }
+    }
+
+    private function save_profile_image($data)
+    {
+        // first delete the existing image if any for this profile and uplod this new image in the server folder
+        echo "i am here";
+        $fileNameArray  = explode('.', $data->fileName);
+        $fileExtention = strtolower(end($fileNameArray));
+        $allowedExtension = array('jpg', 'png', 'jpeg');
+        if(!in_array($fileExtention, $allowedExtension))
+        {
+           return "";
+        }
+        if($data->fileSize>100000)
+        {
+            return "";
+        }
+        $fileNewName = uniqid('', true).".".$fileExtention;
+        $fileDestination = "../ProfileImages/".$fileNewName;
+        move_uploaded_file($this->id."_", $fileDestination);
+        
+        return "task-tracker-api/ProfileImages/myImagTests.png";
     }
 }
 ?>

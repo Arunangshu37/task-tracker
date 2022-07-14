@@ -18,6 +18,7 @@ import { HttpClientModule} from "@angular/common/http"
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProfileComponent } from './Components/profile/profile.component';
+import { CalendarComponent } from './Components/calendar/calendar.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
     AnalyticsComponent,
     AboutComponent,
     ProfileComponent,
+    CalendarComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,9 +9,15 @@ import { ProfileApiService } from 'src/app/Shared/profile-api.service';
 export class NavigationBarComponent implements OnInit {
   isLoggedIn: boolean =false;
   constructor(private profileApi: ProfileApiService) {
+
     this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
+      console.log(response);
       if(response.responseCode == 200){
         this.isLoggedIn = true;
+      }
+      else{
+        this.isLoggedIn = false;
+
       }
       
     })

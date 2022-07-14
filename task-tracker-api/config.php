@@ -6,6 +6,6 @@
     header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE");
     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
     header("Content-Type: application/json; charset=UTF-8");
-    // $_SESSION["profile"] =1;
-    // $_SESSION["username"] = "Arunangshu Biswa";
+    $_SESSION['profile'] = 1;
+    $_SESSION['username'] = "Arunangshu Biswas";
 ?>

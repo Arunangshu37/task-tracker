@@ -28,7 +28,9 @@ export class AuthComponent implements OnInit {
     this.profileApi.signInWithEmailAndPassword(this.profile).subscribe((response:any)=>{
       if(response.responseCode== 200){
         console.log(response.message, response.profileInfo);
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['dashboard']).then(()=>{
+          window.location.reload();
+        });
       }
       else{
         console.log(response.message);

@@ -6,4 +6,6 @@ export class Profile {
     password: string = "";
     token: string = "";
     createdOn: Date = new Date();
+    imagePath: string = "";
+    image!: any;
 }

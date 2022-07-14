@@ -33,4 +33,18 @@ export class ProfileApiService {
       })
     );
   }
+  logout(){
+    return this.http.get(environment.baseUrl+"task-tracker-api/Profile/logout.php").pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
+  updateProfileInfo(profile:any){
+    return this.http.put(environment.baseUrl+"task-tracker-api/Profile/update-profile-info.php", profile).pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
 }

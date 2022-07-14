@@ -1,5 +1,5 @@
 
-<div class="d-flex justify-content-center p-3 auth-back">
+<div class="d-flex justify-content-center p-3 auth-back" >
     
     <form id="auth-form" #profileForm = "ngForm" (submit)="authenticateProfile()" class="">
         <p *ngIf="message != '' " [ngClass]="{'error': messageType == 'error' }" >
