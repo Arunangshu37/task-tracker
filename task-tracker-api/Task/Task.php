@@ -17,6 +17,49 @@ class Task{
         $this->conn = $conn;
         $this->profileId = $_SESSION["profile"];
     }
+    
+    public function get_task_analytics()
+    {
+        $customMessage ="";
+        try
+        {
+            $queryStatusCount = "SELECT COUNT(id)  AS taskCount, `status`  FROM `task` WHERE `profileId` = ".$this->profileId." GROUP BY `status` ";
+            $resultStatusCount = $this->conn->query($queryStatusCount);
+            $statusAnalytics = array();
+            if($resultStatusCount->num_rows>0)
+            {
+                while($row = $resultStatusCount->fetch_assoc())
+                {
+                    $statusAnalytics[] = $row;
+                }
+            }
+            else
+            {
+                return array("responseCode"=> 404, "message"=> "No result found : ".$this->conn->real_escape_string($this->conn->error), "data"=>$statusAnalytics);
+            }
+            
+            $queryPriorityCount = "SELECT COUNT('id') AS taskCount, `priority` FROM `task`  WHERE `profileId` = ".$this->profileId." GROUP BY `priority`";
+            $resultPriorityCount = $this->conn->query($queryPriorityCount);
+            $priorityAnalytics = array();
+            if($resultPriorityCount->num_rows > 0)
+            {
+                while($row = $resultPriorityCount->fetch_Assoc())
+                {
+                    $priorityAnalytics[] = $row;
+                }
+            }
+            else
+            {
+                return array("responseCode"=> 404, "message"=> "No result found", "data"=>$priorityAnalytics);
+            }
+            return array("responseCode"=> 200, "message"=> "Result found", "statusAnalytics"=>$statusAnalytics, "priorityAnalytics"=> $priorityAnalytics);
+            
+        }
+        catch(Throwable $exception)
+        {   
+            return array("responseCode"=>500, "message"=>"An exception occured : ".$exception);
+        } 
+    }
 
     public function get_all_tasks()
     {
@@ -48,56 +91,16 @@ class Task{
         }
     }
 
-    public function get_task_analytics()
-    {
-        $customMessage ="";
-        try
-        {
-            $queryStatusCount = "SELECT COUNT(id)  AS taskCount, `status`  FROM `task` WHERE `profileId` = ".$this->profileId." GROUP BY `status` ";
-            $resultStatusCount = $this->conn->query($queryStatusCount);
-            $statusAnalytics = array();
-            if($resultStatusCount->num_rows>0)
-            {
-                while($row = $resultStatusCount->fetch_assoc())
-                {
-                    $statusAnalytics[] = $row;
-                }
-            }
-            else
-            {
-                return array("responseCode"=> 404, "message"=> "No result found : ".$this->conn->real_escape_string($this->conn->error), "data"=>$statusAnalytics);
-            }
-        
-            $queryPriorityCount = "SELECT COUNT('id') AS taskCount, `priority` FROM `task`  WHERE `profileId` = ".$this->profileId." GROUP BY `priority`";
-            $resultPriorityCount = $this->conn->query($queryPriorityCount);
-            $priorityAnalytics = array();
-            if($resultPriorityCount->num_rows > 0)
-            {
-                while($row = $resultPriorityCount->fetch_Assoc())
-                {
-                    $priorityAnalytics[] = $row;
-                }
-            }
-            else
-            {
-                return array("responseCode"=> 404, "message"=> "No result found", "data"=>$priorityAnalytics);
-            }
-            return array("responseCode"=> 200, "message"=> "Result found", "statusAnalytics"=>$statusAnalytics, "priorityAnalytics"=> $priorityAnalytics);
-
-        }
-        catch(Throwable $exception)
-        {   
-            return array("responseCode"=>500, "message"=>"An exception occured : ".$exception);
-        } 
-    }
-
     public function save()
     {
         try
         {
-            $query = "INSERT INTO `task` ( `title`, `description`, `status`, `profileId`, `createdOn`) VALUES(?,?,?,?,?)";
+            $query = "INSERT INTO `task` ( `title`, `description`, `status`, `profileId`, `priority`, `createdOn`) VALUES(?,?,?,?,?,?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("ssiis",$this->title, $this->description, $this->status, $this->profileId, $this->createdOn);
+            
+            $jsDate = strtotime($this->createdOn);
+            $phpDate = date("Y-m-d H:i:s", $jsDate);
+            $stmt->bind_param("ssiiis",$this->title, $this->description, $this->status, $this->profileId,$this->priority, $phpDate);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"Task created!");

@@ -1,11 +1,11 @@
 <?php
-session_start();
 class CalendarV2{
 
     private $month;
     private $year;
+    private $conn;
     private $week_days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ];
-    function __construct($month, $year)
+    function __construct($month, $year, $conn)
     {
         if(is_numeric($month) && is_numeric($year))
         {
@@ -18,16 +18,31 @@ class CalendarV2{
             $this->month = date("m");
             $this->year = date("Y");
         }
+        $this->conn = $conn;
     }
 
-    function get_calender()
+    private function printData($data)
     {
-        $_SESSION["test"]= "bla ";
+        foreach($data as $week)
+        {
+            foreach($week as $day)
+            {
+                echo $day." ";
+            }
+            echo"<br>";
+        }
+    }
+    
+    function get_calendar()
+    {
         $first_date = $this->year."-".$this->month."-1";
         $first_date_time = new DateTime($first_date);
+        //N stands for ISO 8601 numeric representation of the day of the week 
+        //1 (for Monday) through 7 (for Sunday)
         $first_week_day = $first_date_time->format("N");
 
         //finding last day of the month from the first date 
+        // t stands for : Number of days in the given month
         $last_day_of_month = $first_date_time->format("t");
         $month_data = array();
         // counter is used to separate week 
@@ -58,10 +73,23 @@ class CalendarV2{
                 $counter = 0;
             }
         }
+        // $this->printData($month_data);
+        return $month_data;
+        
+    }
+
+    function get_events(){
+        try
+        {
+            $query = "SELECT 'events' ";
+            
+        }
+        catch(Throwable $exception)
+        {
+
+        }
     }
 }
-
-
-$calendar = new CalendarV2(7, 2022);
-$calendar->get_calender();
+// $calendar = new CalendarV2(7,2022, null);
+// $calendar->get_calendar();
 ?>

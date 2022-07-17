@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ProfileApiService } from 'src/app/Shared/profile-api.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navigation-panel',
@@ -8,7 +10,14 @@ import { Router } from '@angular/router';
 })
 export class NavigationPanelComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  imagePath : string = "";
+  userName  : string = "";
+  constructor(private router:Router, private profileApi : ProfileApiService) { 
+  this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
+    this.imagePath =environment.baseUrl +"task-tracker-api/"+ response.profileInfo.imagePath;
+    this.userName = response.profileInfo.firstName +" "+ response.profileInfo.lastName;
+  });
+  }
 
   ngOnInit(): void {
   }

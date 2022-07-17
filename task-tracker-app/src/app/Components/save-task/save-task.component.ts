@@ -30,7 +30,8 @@ export class SaveTaskComponent implements OnInit {
   saveTaskData(taskForm: any) { 
     if (this.task.id != 0) {
       this.taskApi.putTask(this.task).subscribe((response) => alert(response.message));
-    } else { 
+    } else {
+      console.log(this.task.createdOn); 
       this.taskApi.postTask(this.task).subscribe((response) => alert(response.message));
     }
     taskForm.resetForm();

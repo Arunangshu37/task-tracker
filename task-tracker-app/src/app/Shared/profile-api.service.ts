@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -12,7 +12,7 @@ export class ProfileApiService {
 
 
   getCurrentProfileInformation(){
-    return this.http.get(environment.baseUrl+"task-tracker-api/Profile/get-profile-info.php").pipe(
+    return this.http.get(environment.baseUrl+"task-tracker-api/Profile/get-current-profile-info.php").pipe(
       map((response)=>{
         return response;
       })
@@ -26,13 +26,6 @@ export class ProfileApiService {
       })
     );;
   }
-  getFullProfileInformation(){
-    return this.http.get(environment.baseUrl+"task-tracker-api/Profile/get-full-profile-info.php").pipe(
-      map((response)=>{
-        return response;
-      })
-    );
-  }
   logout(){
     return this.http.get(environment.baseUrl+"task-tracker-api/Profile/logout.php").pipe(
       map((response)=>{
@@ -40,8 +33,10 @@ export class ProfileApiService {
       })
     );
   }
+
   updateProfileInfo(profile:any){
-    return this.http.put(environment.baseUrl+"task-tracker-api/Profile/update-profile-info.php", profile).pipe(
+    const headers = new HttpHeaders().set('Content-Type', []);
+    return this.http.post(environment.baseUrl+"task-tracker-api/Profile/update-profile-info.php", profile,{headers, responseType:"text"}).pipe(
       map((response)=>{
         return response;
       })

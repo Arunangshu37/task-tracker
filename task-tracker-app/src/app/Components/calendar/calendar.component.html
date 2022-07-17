@@ -1,1 +1,97 @@
-<p>calendar works!</p>
+<div class="mt-5 d-flex justify-content-center row">
+    <div class="col-sm-8 ">
+        <div class="row d-flex justify-content-between">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary w-100" (click)="switchMonth('p')">
+                   {{prevMonth}}
+                </button>
+            </div>
+            <div class="col-md-4">
+                <h5 class="m-auto" style="width:fit-content;">
+                    {{monthNames[month]}} , {{year}}
+                </h5>
+            </div>
+            <div class="col-md-4">
+
+                <button type="button" class="btn btn-primary w-100" (click)="switchMonth('n')">
+                    {{nextMonth}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="d-flex flex-column align-items-center">
+    <div class="row res-row" *ngFor="let week of calendar;">
+        <div class="col-sm-1 p-0 d-flex justify-content-center good-view" *ngFor="let day of week; let ind = index"
+            [ngClass]="{'day-0': day == 0}">
+            <ng-container *ngIf="day != 0 else elseBlock">
+                <button type="button" class="btn row d-flex justify-content-between w-100 bg-light"
+                    data-bs-toggle="modal" data-bs-target="#dayModal" (click)="renderDayActivity(day)"  >
+                    <div class="d-inline p-0 m-auto" style="width: fit-content;font-size: 1.2em!important;">
+                        {{day}}
+                    </div>
+                    <div class="hidden" style="width: fit-content">
+                        {{weekName[ind]}}
+                    </div>
+                </button>
+               
+            </ng-container>
+            <ng-template #elseBlock>
+
+            </ng-template>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="dayModal" tabindex="-1"
+aria-labelledby="dayModal" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{day}} - {{month+1}} - {{year}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <p class="fs-6">
+                <label for="marker">Mark this date </label>
+                <select class="form-select" [(ngModel)]="marker" name="marker" id="marker">
+                    <option [value]="marker.id" *ngFor="let marker of markers">{{marker.name}}</option>
+                </select>
+            </p>
+            <div>
+                <ul>
+                    <li><i>For more detail on marker go to marker section.</i></li>
+                    <li><i>You can add at most four markers for each day currently</i></li>
+                </ul>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Marker Name</th>
+                        <th scope="col">Remove</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let dayMarker of dayMarkers">
+                        <td>{{dayMarker.name}}</td>
+                        <td>
+                            <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':dayMarker.ink}"> </span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-secondary bg-light" >
+                                <i><i class="bi bi-eraser-fill"></i></i>
+                            </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           
+        </div>
+    </div>
+</div>
+</div>

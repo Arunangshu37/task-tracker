@@ -23,7 +23,8 @@ export class TaskComponent implements OnInit {
   status = Status;
   priority = Priority;
   priorityList = priorityList;
-
+  priorityState:number = 0;
+  statusState:number = 0;
   constructor(private taskApi: TaskApiService, private router: Router) {
     this.getTasks();
   }
@@ -92,19 +93,30 @@ export class TaskComponent implements OnInit {
   }
 
   filterTaskByStatus(target: any) {
-    if (!this.priorityFilterEnable) {
-      this.taskList = this.backUpTaskList;
-      console.log("in here");
+    if (this.priorityFilterEnable) {
+      this.taskList = this.backUpTaskList
+        .filter((item) => { return item.priority == this.priorityState  })
+        .filter((item) => { return item.status == target.value});
     }
-    this.taskList = this.taskList.filter((item) => { return item.status == target.value  });
+    else
+    {
+      this.taskList = this.backUpTaskList
+        .filter((item) => { return item.status == target.value});
+    }
   }
 
   filterTaskByPriority(target: any) 
   {
-    if (!this.statusFilterEnable) {
+    if (this.statusFilterEnable) {
       this.taskList = this.backUpTaskList
+        .filter((item) => { return item.status == this.statusState  })
+        .filter((item) => { return item.priority == target.value});
     }
-    this.taskList = this.taskList.filter((item) => { return item.priority == target.value });
+    else
+    {
+      this.taskList = this.backUpTaskList
+        .filter((item) => { return item.priority == target.value});
+    }
   }
 
   searchTask(token: any) {
@@ -120,4 +132,7 @@ export class TaskComponent implements OnInit {
     this.taskApi.putTask(task).subscribe(response => console.log(response.message));
   }
 
+  filterIncompleteTasks(){
+    this.taskList = this.backUpTaskList.filter((item)=>{ return item.status != this.status.Complete.id} );
+  }
 }

@@ -10,7 +10,7 @@ include_once("Profile.php");
             $conn = new Connection($ENVIRONMENT);
             $profile =new Profile($conn->get_connection());
             $profile->id = $_SESSION["profile"];
-            echo json_encode($profile->get_full_profile_information());
+            echo json_encode($profile->get_current_profile_information());
         }
         else
         {

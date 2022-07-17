@@ -11,7 +11,6 @@ export class NavigationBarComponent implements OnInit {
   constructor(private profileApi: ProfileApiService) {
 
     this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
-      console.log(response);
       if(response.responseCode == 200){
         this.isLoggedIn = true;
       }

@@ -1,0 +1,42 @@
+.good-view{
+    width: 95%;
+    height: 15vw;
+    border: 1px solid lightgrey;
+    border-radius: 3px;
+    margin: 2px;
+    padding: 3px 20px;
+    font-weight: 700;
+    font-size: 1.5em;
+}
+
+.hidden{
+    display: block;
+}
+.day-0{
+    display: none!important;
+}
+.res-row{
+    width: 100%;
+}
+@media only screen and (min-width:991px)
+{
+    .good-view{
+        width: 6vw;
+        height: 6vw;
+        border: 1px solid lightgrey;
+        border-radius: 3px;
+        margin: 2px;
+        padding: 1%;
+        font-weight: 700;
+    }
+   .hidden{
+        display: none;
+   }
+   .day-0{
+        display: block!important;
+        visibility: hidden;
+    }
+    .res-row{
+        width: auto;
+    }
+}

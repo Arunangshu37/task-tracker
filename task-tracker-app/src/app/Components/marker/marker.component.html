@@ -1,0 +1,81 @@
+<h2>Manage your markers here!</h2>
+
+<h4>Search your marker here</h4>
+<div class="form-floating mb-3">
+    <input type="text" class="form-control" id="floatingInput" (keyup)="searchMarker($event.target)" placeholder="Search your marker here!">
+    <label for="floatingInput">Search your marker here by any keyword related!</label>
+</div>
+<button type="button" class="btn btn-primary text-light" data-bs-toggle="modal"
+    data-bs-target="#markerForm" (click)="clearForm()">
+    <i style="color:white; font-size:1.3em;" class="bi bi-plus-circle-fill"></i> Create a marker
+</button>
+<div class="modal fade" id="markerForm" tabindex="-1" aria-labelledby="markerFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="markerFormlLabel">Marker </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form #markerForm="ngForm" >
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name of the marker</label>
+                        <input type="text" class="form-control" [(ngModel)]="marker.name" name="name" id="name"
+                            placeholder="A short best suited name goes here...">
+                    </div>
+                    <div class="mb-3 d-flex">
+                        <label for="ink" class="form-label my-auto">Identifying ink</label>
+                        <input type="color" class="form-control form-control-color m-auto" id="ink"  [(ngModel)]="marker.ink" name="ink" title="Choose your ink for the marker">
+                    </div>
+                    <div class="mb-3">
+                        <label for="markerDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="markerDescription" [(ngModel)]="marker.description" name="description" rows="3"></textarea>
+                    </div>
+                    <button type="submit" (click)="saveMarker(marker)" class="btn btn-secondary bg-success" >save</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pagination-controls class="float-end" (pageChange)=" page = $event" previousLabel="Previous"
+nextLabel="Next"></pagination-controls>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Ink</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let marker of markerList | paginate :{ 
+        itemsPerPage: 5,
+        currentPage: page } ">
+            <td>{{marker.id}}</td>
+            <td>{{marker.name}}</td>
+            <td>{{marker.description}}</td>
+            <td>
+                <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':marker.ink}"> </span>
+            </td>
+
+            <td>
+                <button type="button" class="btn btn-secondary bg-light" data-bs-toggle="modal"
+                    data-bs-target="#markerForm" (click)="setData(marker)">
+                    <i style="color: orange;" class="bi bi-pen-fill"></i>
+                </button>
+            </td>
+            <td>
+                <button type="button" class="btn btn-secondary bg-light" (click)="deleteMarker(marker.id)">
+                    <i style="color: rgb(203, 38, 38);" class="bi bi-trash3-fill"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>

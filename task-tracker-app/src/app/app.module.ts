@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProfileComponent } from './Components/profile/profile.component';
 import { CalendarComponent } from './Components/calendar/calendar.component';
+import { MarkerComponent } from './Components/marker/marker.component';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { CalendarComponent } from './Components/calendar/calendar.component';
     AboutComponent,
     ProfileComponent,
     CalendarComponent,
+    MarkerComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,14 +9,13 @@ class Profile{
     public $lastName = "";
     public $createdOn = "";
     public $token = 0;
-    public $image = null;
     public $imagePath = "";
     private $conn= null;
 
     function __construct($conn)
     {
         $this->conn = $conn;
-        $this->id = $_SESSION['profile'];
+        $this->id = isset($_SESSION['profile']) ? $_SESSION['profile'] : 0;
     }
 
     function sign_in_with_email_and_password(){
@@ -31,7 +30,6 @@ class Profile{
             if($profile->num_rows > 0)
             {
                 $row = $profile->fetch_assoc();
-                session_start();
                 $_SESSION["profile"] = $row["id"];
                 $_SESSION["username"] = $row["firstName"]. " " . $row["lastName"]; 
                 return array("responseCode"=>200, "message"=> "Profile found", "profileInfo"=>array("profile"=>$row['id'], "username"=>$_SESSION["username"]));
@@ -47,7 +45,7 @@ class Profile{
         }
     }
 
-    function get_full_profile_information()
+    function get_current_profile_information()
     {
         try
         {
@@ -79,35 +77,77 @@ class Profile{
         {
             $query = "";
             $stmt = NULL;
-            $this->imagePath = $this->save_profile_image($this->image);
-            return array("responseCode"=>200, "profile"=>$this);
+            $query = "SELECT `imagePath` FROM `profile` WHERE `id` =  ".$this->id;
+            $result = $this->conn->query($query);
+            $row = "";
+            if($result->num_rows  > 0)
+            {
+                $row  = $result->fetch_assoc();
+            }
+            $this->imagePath = $row['imagePath'];
+
+            if($this->image!=null)
+            {
+                
+                $fileUploadResponse = array();
+                $fileUploadResponse = $this->try_upload_file($this->image,$row["imagePath"]);
+                if($fileUploadResponse["fileUploadStatus"] !=200)
+                {
+                    return array("responseCode"=>500, "message"=>"File upload ws not successfull : ".$fileUploadResponse["message"]);
+                }
+                else
+                {
+                    $this->imagePath  = $fileUploadResponse["imagePath"];
+                }
+            }
+            
+            
+
+            $stmt = null;
+            $query = "";
+            if($this->token==1)
+            {
+                // currently not considering 
+            }
+            else
+            {
+                $query="UPDATE `profile` SET `firstName` =  ? ,`lastName` =  ? , `email`= ?, `imagePath` = ? WHERE `id` = ? ";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param("ssssi", $this->firstName, $this->lastName, $this->email, $this->imagePath, $this->id);
+            }
+            if($stmt->execute())
+            {
+                return array("responseCode"=>200, "message"=>"ProfileUpdated Successfully!");
+            }
+            else
+            {
+                return array("responseCode"=>500, "message"=>"There was an error while updating your profile . ".$this->conn->error);
+            }
         }
         catch(Throwable $exception)
         {
             return array("responseCode"=>500, "message"=>"An exception occured : ".$exception);
         }
     }
-
-    private function save_profile_image($data)
-    {
-        // first delete the existing image if any for this profile and uplod this new image in the server folder
-        echo "i am here";
-        $fileNameArray  = explode('.', $data->fileName);
-        $fileExtention = strtolower(end($fileNameArray));
-        $allowedExtension = array('jpg', 'png', 'jpeg');
-        if(!in_array($fileExtention, $allowedExtension))
+    private function  try_upload_file($image, $previosImage){
+        if($image['error']!=0)
         {
-           return "";
+            return array("fileUploadStatus"=>500, "message"=>"There was an error in provessing the file  : ".$image['file']['error']);
         }
-        if($data->fileSize>100000)
+        $fileNameArray = explode(".", $image['name']);
+        $fileExtension = strtolower(end($fileNameArray));
+        $allowedExtension = array("jpg", "jpeg", "png");
+        $fileSize = (int)$image['size'];
+        if(!in_array($fileExtension, $allowedExtension))
         {
-            return "";
+            return array("fileUploadStatus"=>500, "message"=>"File extension is not allowed. ");
         }
-        $fileNewName = uniqid('', true).".".$fileExtention;
-        $fileDestination = "../ProfileImages/".$fileNewName;
-        move_uploaded_file($this->id."_", $fileDestination);
-        
-        return "task-tracker-api/ProfileImages/myImagTests.png";
+      
+        $fileNewName = uniqid('', true).".".$fileExtension;
+        unlink("../".$previosImage);
+        $destination = "../Profile/ProfileImages/".$fileNewName;
+        move_uploaded_file($image['tmp_name'], $destination);
+        return array("fileUploadStatus"=>200, "message"=> "File was uploaded successfully", "imagePath"=>substr($destination, 3,strlen($destination)));
     }
 }
 ?>

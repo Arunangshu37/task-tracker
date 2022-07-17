@@ -1,11 +1,11 @@
 <h2>
     All tasks
 </h2>
-<div style=" display:block;height: 550px; overflow-y:auto;">
-    <div>
+<div class="row">
+    <div class="col-md-10">
         <div class="d-flex flex-column align-items-center" > 
             <h6 class="align-self-start px-1 mb-1 mt-2">Sort by date </h6>
-            <select class="form-select" name="filter" (change)="sortData($event.target)" id="">
+            <select class="form-select" name="filter" (change)="sortData($event.target)" id=""  > 
                 <option value="dateAsc">Older to newer</option>
                 <option value="dateDesc">Newer to older</option>
             </select>
@@ -16,7 +16,7 @@
             <div class="d-flex flex-column my-auto mx-2">
                 <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Priority </h6>
                 <select [disabled]="!statusFilterEnable" class="form-select" name="filterByStatus" 
-                (change)="filterTaskByStatus($event.target)" id="status" >
+                (change)="filterTaskByStatus($event.target)" id="status" [(ngModel)]="statusState">
                     <option [value]="statusItem.id" 
                     *ngFor="let statusItem of statusList" >
                         {{statusItem.label}}
@@ -28,13 +28,14 @@
             <div class="d-flex flex-column my-auto mx-2">
                 <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Status </h6>
                 <select [disabled]="!priorityFilterEnable" class="form-select" name="filterByPriority" 
-                (change)="filterTaskByPriority($event.target)" id="priority">
+                (change)="filterTaskByPriority($event.target)" id="priority" [(ngModel)]="priorityState">
                     <option [value]="priorityItem.id" 
                     *ngFor="let priorityItem of priorityList" >
                     {{priorityItem.label}}</option>
                 </select>
             </div>
             <button type="button" class="btn btn-primary m-auto" (click)="reset()">Reset data</button>
+            <button type="button" class="btn btn-primary m-auto" (click)="filterIncompleteTasks()">Show incomplete tasks</button>
         </div>
         <div class="d-flex flex-column align-items-center">
             <h6 class="align-self-start px-1 mb-1 mt-2">Search Task </h6>
@@ -44,12 +45,14 @@
             </div>
         </div>
     </div>
-    <pagination-controls (pageChange)="page = $event"></pagination-controls>
-    <div class="d-flex flex-wrap ">
-        <app-task-item  *ngFor="let task of taskList | paginate : {itemsPerPage: 6, currentPage: page}"  
-        [task] = "task"
-        (deleteTaskEvent)="processDeleteTaskRequest($event)" 
-        (updateTaskEvent)="setUpTaskForm($event)"
-        (updateStatusEvent)="updateStatus($event)"></app-task-item>
+    <div class="col-md-11 my-5">
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        <div class="d-flex flex-wrap ">
+            <app-task-item  *ngFor="let task of taskList | paginate : {itemsPerPage: 6, currentPage: page}"  
+            [task] = "task"
+            (deleteTaskEvent)="processDeleteTaskRequest($event)" 
+            (updateTaskEvent)="setUpTaskForm($event)"
+            (updateStatusEvent)="updateStatus($event)"></app-task-item>
+        </div>
     </div>
 </div>

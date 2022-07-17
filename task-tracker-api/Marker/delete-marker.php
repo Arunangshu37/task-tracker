@@ -1,8 +1,8 @@
 <?php
 include_once("../config.php");
 include_once("../Connection.php");
-include_once("Task.php");
-if($_SERVER["REQUEST_METHOD"]=="GET")
+include_once("Marker.php");
+if($_SERVER["REQUEST_METHOD"]=='DELETE')
 {
     $conn = new Connection($ENVIRONMENT);
     
@@ -11,8 +11,10 @@ if($_SERVER["REQUEST_METHOD"]=="GET")
         echo json_encode(array("responseCode"=>401, "message"=> "No user is logged in at present. Please login to access this page"));
     }
     else{
-        $task = new Task($conn->get_connection());
-        echo json_encode($task->get_all_tasks());
+        $marker = new Marker($conn->get_connection());
+        $data = json_decode(file_get_contents("php://input"));
+        $marker->id = $data->markerId;
+        echo json_encode($marker->delete());
     }
 }
 else

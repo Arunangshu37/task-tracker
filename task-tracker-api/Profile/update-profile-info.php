@@ -2,19 +2,18 @@
 include_once("../config.php");
 include_once("../Connection.php");
 include_once("Profile.php");
-if($_SERVER['REQUEST_METHOD']=="PUT")
+if($_SERVER['REQUEST_METHOD']=="POST")
 {
     if(isset($_SESSION['profile']))
     {
-        $data = json_decode(file_get_contents("php://input"));
         $conn = new Connection($ENVIRONMENT);
         $profile = new Profile($conn->get_connection());
         $profile->id  = $_SESSION["profile"];
-        $profile->firstName  = $data->firstName;
-        $profile->lastName  = $data->lastName;
-        $profile->email  = $data->email;
-        $profile->token = $data->token;
-        $profile->image = $data->image;
+        $profile->firstName  = $_POST['firstName'];
+        $profile->lastName  =  $_POST['lastName'];
+        $profile->email  = $_POST['email'];
+        $profile->token =  $_POST['token'];
+        $profile->image =  isset($_FILES['image']) ? $_FILES['image'] : null;
         if($profile->token == 1)
         {
             $profile->password = $data->password;

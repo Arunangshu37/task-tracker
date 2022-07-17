@@ -1,6 +1,16 @@
 <form class="needs-validation " novalidate="" style="height: 600px; overflow-y:auto" (submit)="processProfileUpdate()">
     <h2>Profile</h2>
     <div class="row g-0">
+       
+        <div class="col-sm-7 p-3">
+            <img style="width: 200px;" id="img" name="profileImageDisplay"  [src]="profileData.imagePath" 
+            class="img-thumbnail" alt="profile image" />
+            <div class="mb-3">
+                <label for="image" class="form-label">Profile Image</label>
+                <input 
+                class="form-control" type="file" id="image" (change)="setImage($event.target)">
+            </div>
+        </div>
         <div class="col-sm-6 p-3">
             <label for="firstName" class="form-label">First name</label>
             <input [(ngModel)]="profileData.firstName" name="firstName" 
@@ -16,16 +26,6 @@
              type="text" class="form-control" id="lastName" placeholder="" value="" required="">
             <div class="invalid-feedback">
                 Valid last name is required.
-            </div>
-        </div>
-
-        <div class="col-sm-7 p-3">
-            <img style="width: 200px;" id="img" name="profileImageDisplay"  [src]="profileData.imagePath" 
-            class="img-thumbnail" alt="profile image" />
-            <div class="mb-3">
-                <label for="image" class="form-label">Profile Image</label>
-                <input 
-                class="form-control" type="file" id="image" (change)="setImage($event.target)">
             </div>
         </div>
 

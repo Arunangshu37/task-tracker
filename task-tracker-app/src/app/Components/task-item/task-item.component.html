@@ -8,7 +8,7 @@
         </div>
     </button>
     <div class="my-footer w-100 d-flex justify-content-between">
-        <label class="m-auto" for="">{{task.createdOn | date : "dd-mm-yyyy HH:mm"}}</label>
+        <label class="m-auto" for="">{{task.createdOn | date : "dd-MM-yyyy HH:mm "}}</label>
         <span class="m-auto">
             <button class="btn  bg-light mx-1" (click)="updateTask(task)">
                 <i style="color:rgb(248, 194, 76);" class="bi bi-pencil-fill"></i>
@@ -35,7 +35,7 @@
             <div class="d-flex p-3 justify-content-between">
                 <p class="my-auto">
                     Date created <br>
-                    <label for="">{{task.createdOn}}</label>
+                    <label for="">{{task.createdOn | date : 'dd:MM:YYYY HH:mm'}}</label>
                 </p>
                 <p class="my-auto">
                     <select class="form-select" (change)="changeStatus(task)" name="status" [(ngModel)]="task.status" id="">
