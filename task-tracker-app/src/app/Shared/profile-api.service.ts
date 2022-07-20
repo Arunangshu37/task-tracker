@@ -10,6 +10,13 @@ export class ProfileApiService {
   
   constructor(private http : HttpClient) { }
 
+  retrievePassword(data:any){
+    return this.http.post(environment.baseUrl+"task-tracker-api/forgot-password.php", data).pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
 
   getCurrentProfileInformation(){
     return this.http.get(environment.baseUrl+"task-tracker-api/Profile/get-current-profile-info.php").pipe(

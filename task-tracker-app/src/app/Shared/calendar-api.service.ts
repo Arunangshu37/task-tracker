@@ -17,6 +17,39 @@ export class CalendarApiService {
       })
     );
   }
+  getMarkedDates(date:string){
+    return this.http.get(environment.baseUrl + "task-tracker-api/get-marked-dates.php?date="+date).pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
+  markDate(date:string, markerId:number){
+    let data={
+      date : date,
+      markerId : markerId
+    }
+    return this.http.post(environment.baseUrl + "task-tracker-api/mark-date.php", data).pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
+  removeMarkerFromDate(instanceId:number){
+    const options = {
+      headers: new HttpHeaders({
+        'Content-type':'application/json'
+      }),
+      body:{
+        instanceId : instanceId
+      }
+    }
+    return this.http.post(environment.baseUrl + "task-tracker-api/remove-marker-from-date.php", options).pipe(
+      map((response)=>{
+        return response;
+      })
+    );
+  }
 
 
 }

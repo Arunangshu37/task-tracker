@@ -26,13 +26,18 @@
         <div class="col-sm-1 p-0 d-flex justify-content-center good-view" *ngFor="let day of week; let ind = index"
             [ngClass]="{'day-0': day == 0}">
             <ng-container *ngIf="day != 0 else elseBlock">
-                <button type="button" class="btn row d-flex justify-content-between w-100 bg-light"
+                <button type="button" class="btn row w-100 bg-light"
                     data-bs-toggle="modal" data-bs-target="#dayModal" (click)="renderDayActivity(day)"  >
-                    <div class="d-inline p-0 m-auto" style="width: fit-content;font-size: 1.2em!important;">
+                    <div class="col-sm-2  p-0 mx-auto" style="width: 65px; display:inline-block; font-size: 1.2em!important;">
                         {{day}}
                     </div>
-                    <div class="hidden" style="width: fit-content">
+                    <div class="col-sm-2 d-inline hidden" style="width: fit-content">
                         {{weekName[ind]}}
+                    </div>
+                    <div class="col-sm-4 d-inline flex-wrap w-100 p-0">
+
+                        <span *ngFor="let data of markedDays.getMarkersForDay(day)" style="width: 15px; height:15px; display:inline-block; margin:2px; border-radius: 10px; border: none;" [ngStyle]="{'background-color': data.ink}" ></span>
+
                     </div>
                 </button>
                
@@ -56,7 +61,8 @@ aria-labelledby="dayModal" aria-hidden="true">
             
             <p class="fs-6">
                 <label for="marker">Mark this date </label>
-                <select class="form-select" [(ngModel)]="marker" name="marker" id="marker">
+                <select class="form-select"  id="marker" (change)="addMarker($event.target)">
+                    <option value="-" selected >------ Mark this date ------</option>
                     <option [value]="marker.id" *ngFor="let marker of markers">{{marker.name}}</option>
                 </select>
             </p>
@@ -73,14 +79,14 @@ aria-labelledby="dayModal" aria-hidden="true">
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let dayMarker of dayMarkers">
-                        <td>{{dayMarker.name}}</td>
-                        <td>
-                            <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':dayMarker.ink}"> </span>
+                      <tr *ngFor="let instance of markedDates">
+                        <td class="align-middle">{{instance.name}}</td>
+                        <td class="align-middle">
+                            <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':instance.ink}"> </span>
                         </td>
-                        <td>
-                            <button type="button" class="btn btn-secondary bg-light" >
-                                <i><i class="bi bi-eraser-fill"></i></i>
+                        <td class="align-middle" >
+                            <button type="button" class="btn btn-secondary bg-light" (click)="removeMarkerFromDate(instance.id)">
+                                <i style="color: dodgerblue;" class="bi bi-eraser-fill"></i>
                             </button>
                         </td>
                       </tr>

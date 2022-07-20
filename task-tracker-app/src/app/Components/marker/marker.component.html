@@ -2,7 +2,7 @@
 
 <h4>Search your marker here</h4>
 <div class="form-floating mb-3">
-    <input type="text" class="form-control" id="floatingInput" (keyup)="searchMarker($event.target)" placeholder="Search your marker here!">
+    <input type="text" class="form-control" id="floatingInput" (keyup)="searchMarker($event.target)" placeholder="Search your marker here!" style="height:85px;">
     <label for="floatingInput">Search your marker here by any keyword related!</label>
 </div>
 <button type="button" class="btn btn-primary text-light" data-bs-toggle="modal"
@@ -43,39 +43,41 @@
 
 <pagination-controls class="float-end" (pageChange)=" page = $event" previousLabel="Previous"
 nextLabel="Next"></pagination-controls>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">id</th>
-            <th scope="col">Name</th>
-            <th scope="col">Description</th>
-            <th scope="col">Ink</th>
-            <th scope="col">Update</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let marker of markerList | paginate :{ 
-        itemsPerPage: 5,
-        currentPage: page } ">
-            <td>{{marker.id}}</td>
-            <td>{{marker.name}}</td>
-            <td>{{marker.description}}</td>
-            <td>
-                <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':marker.ink}"> </span>
-            </td>
-
-            <td>
-                <button type="button" class="btn btn-secondary bg-light" data-bs-toggle="modal"
-                    data-bs-target="#markerForm" (click)="setData(marker)">
-                    <i style="color: orange;" class="bi bi-pen-fill"></i>
-                </button>
-            </td>
-            <td>
-                <button type="button" class="btn btn-secondary bg-light" (click)="deleteMarker(marker.id)">
-                    <i style="color: rgb(203, 38, 38);" class="bi bi-trash3-fill"></i>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div style="display: block; overflow-x: auto; width: 100%;">
+    <table class="table table-striped" style="width: 950px;">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Ink</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let marker of markerList | paginate :{ 
+            itemsPerPage: 5,
+            currentPage: page } ">
+                <td>{{marker.id}}</td>
+                <td>{{marker.name}}</td>
+                <td>{{marker.description}}</td>
+                <td>
+                    <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':marker.ink}"> </span>
+                </td>
+    
+                <td>
+                    <button type="button" class="btn btn-secondary bg-light" data-bs-toggle="modal"
+                        data-bs-target="#markerForm" (click)="setData(marker)">
+                        <i style="color: orange;" class="bi bi-pen-fill"></i>
+                    </button>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-secondary bg-light" (click)="deleteMarker(marker.id)">
+                        <i style="color: rgb(203, 38, 38);" class="bi bi-trash3-fill"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

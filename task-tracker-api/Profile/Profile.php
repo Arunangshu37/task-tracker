@@ -1,5 +1,5 @@
 <?php
-
+include_once("mailer.php");
 // error_reporting(0);
 class Profile{
     public $id = 0;
@@ -105,9 +105,11 @@ class Profile{
 
             $stmt = null;
             $query = "";
-            if($this->token==1)
+            if($this->token=="1")
             {
-                // currently not considering 
+                $query="UPDATE `profile` SET `firstName` =  ? ,`lastName` =  ? , `email`= ?, `imagePath` = ?, `password` = ? WHERE `id` = ? ";
+                $stmt = $this->conn->prepare($query);
+                $stmt->bind_param("sssssi", $this->firstName, $this->lastName, $this->email, $this->imagePath,$this->password, $this->id);
             }
             else
             {
@@ -148,6 +150,34 @@ class Profile{
         $destination = "../Profile/ProfileImages/".$fileNewName;
         move_uploaded_file($image['tmp_name'], $destination);
         return array("fileUploadStatus"=>200, "message"=> "File was uploaded successfully", "imagePath"=>substr($destination, 3,strlen($destination)));
+    }
+
+ 
+
+    function retrieve_old_password(){
+        try{
+            $query = "SELECT `password` FROM `profile` WHERE `email` = ? ";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("s", $this->email);
+            $stmt->execute();
+            $result= $stmt->get_result();
+            if($result->num_rows>0)
+            {
+                $row = $result->fetch_assoc();
+                $subject = "Task-tracker credential";
+                $receiverEmailId = $this->email;
+                $message = "Your password to login in to task-tracker portal is : ".$row['password'];
+                sendMail($subject, $receiverEmailId, $message);
+                return array("responseCode"=>200, "message"=>"An email is sent to your registered email account.");
+            }
+            else
+            {
+                return array("responseCode"=>200, "message"=>"No such email is registered ");
+            }
+        }catch(Throwable $exception)
+        {
+            return array("responseCode"=>500, "message"=>"An exception occured while processing forgot password request ".$exception);
+        }   
     }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+include_once("../config.php");
     if($_SERVER["REQUEST_METHOD"]=="GET")
     {
         if(isset($_SESSION["profile"]))

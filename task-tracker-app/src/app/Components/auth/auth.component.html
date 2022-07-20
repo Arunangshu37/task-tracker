@@ -1,21 +1,51 @@
+<div class="d-flex justify-content-center p-3 auth-back">
 
-<div class="d-flex justify-content-center p-3 auth-back" >
-    
-    <form id="auth-form" #profileForm = "ngForm" (submit)="authenticateProfile()" class="">
-        <p *ngIf="message != '' " [ngClass]="{'error': messageType == 'error' }" >
+    <form id="auth-form" #profileForm="ngForm" (submit)="authenticateProfile()" class="">
+        <p *ngIf="message != '' " [ngClass]="{'error': messageType == 'error' }">
             {{message}}
         </p>
         <i style="font-size: 5em; color: rgb(45, 45, 135);" class="bi bi-door-open-fill"></i>
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-    
+
         <div class="form-floating mb-3">
-            <input [(ngModel)]="profile.email" name="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input [(ngModel)]="profile.email" name="email" type="email" class="form-control" id="floatingInput"
+                placeholder="name@example.com">
             <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating mb-3">
-            <input [(ngModel)]="profile.password" name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input [(ngModel)]="profile.password" name="password" type="password" class="form-control"
+                id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    </form>  
+         
+        <button class="w-100 btn btn-lg btn-primary mb-4" type="submit">Sign in</button>
+        <a class="link-primary my-2" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Forgot Password
+        </a>   
+    </form>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" (submit)="retrievePassord()">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="annonymousEmail" [(ngModel)]="annonymousEmail" id="floatingInput" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" [disabled]="isBtnDisabled">
+                            <span class="spinner-grow spinner-grow-sm" id="loader" role="status" aria-hidden="true" [ngStyle]="{'display':loading}" ></span>
+                            Retrieve password</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

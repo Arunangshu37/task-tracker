@@ -1,10 +1,10 @@
 <?php
 include_once("../config.php");
-include_once("../Connection.php");
+include_once("../DbConnection.php");
 include_once("Task.php");
 if($_SERVER["REQUEST_METHOD"]=="GET")
 {
-    $conn = new Connection($ENVIRONMENT);
+    $conn = new DbConnection($ENVIRONMENT);
 
     if(!isset($_SESSION["username"]))
     {

@@ -1,13 +1,13 @@
 <?php
 include_once("../config.php");
-include_once("../Connection.php");
+include_once("../DbConnection.php");
 include_once("Profile.php");
     if($_SERVER["REQUEST_METHOD"]=="GET")
     {
         $profileInfo =array();
         if(isset($_SESSION["profile"]))
         {
-            $conn = new Connection($ENVIRONMENT);
+            $conn = new DbConnection($ENVIRONMENT);
             $profile =new Profile($conn->get_connection());
             $profile->id = $_SESSION["profile"];
             echo json_encode($profile->get_current_profile_information());

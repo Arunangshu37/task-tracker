@@ -10,6 +10,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ProfileComponent implements OnInit {
 
+  tempPassword:string ="";
+  changePassword:boolean = false;
+  changePasswordInputBoxDisabled:boolean =true;
   imageData : any;
   image : any;
   profileData: Profile =new Profile();
@@ -24,9 +27,20 @@ export class ProfileComponent implements OnInit {
         this.profileData.imagePath =environment.baseUrl+"task-tracker-api/"+this.profileData.imagePath
         console.log(this.image);
       }
+      this.profileData.token ="0";
     });
   }
-
+  setPasswodChange(){
+    this.changePassword = !this.changePassword ;
+    if(!this.changePassword)
+    {
+      this.changePasswordInputBoxDisabled = false;
+      this.profileData.token = "1";
+    }else{
+      this.profileData.token = "0";
+      this.changePasswordInputBoxDisabled = true;
+    }
+  }
   setImage(target:any): void{
     
     if(target.files.length>0){
@@ -48,14 +62,22 @@ export class ProfileComponent implements OnInit {
     this.formData.append("firstName", this.profileData.firstName);
     this.formData.append("lastName", this.profileData.lastName);
     this.formData.append("email", this.profileData.email);
-    this.formData.append("token", 0);
+    this.formData.append("token", this.profileData.token);
+    this.formData.append("password", this.profileData.password);
+    if(this.tempPassword != this.profileData.password)
+    {
+      alert("Retyped password does not match with typed password!");
+      return; 
+    }
+
     this.profileApi.updateProfileInfo(this.formData).subscribe((response:any)=>{
       try{
         let jsonResponse = JSON.parse(response);
         alert(jsonResponse.message);   
       }catch(e)
       {
-        console.log("An exception occured check here !",e );
+        
+        console.log("An exception occured check here !",e, response );
       }
       
     })

@@ -10,32 +10,38 @@
                 <option value="dateDesc">Newer to older</option>
             </select>
         </div>
-        <div class="d-flex flex-wrap mt-2" > 
-            <input type="checkbox" name="priorityFilterFlag" [(ngModel)]="statusFilterEnable" 
-            [checked]="statusFilterEnable" id="priorityFlag" class="form-check-input my-auto mx-2">
-            <div class="d-flex flex-column my-auto mx-2">
-                <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Priority </h6>
-                <select [disabled]="!statusFilterEnable" class="form-select" name="filterByStatus" 
-                (change)="filterTaskByStatus($event.target)" id="status" [(ngModel)]="statusState">
-                    <option [value]="statusItem.id" 
-                    *ngFor="let statusItem of statusList" >
-                        {{statusItem.label}}
-                    </option>
-                </select>
+        <div class="row mt-2" > 
+            <div class="col-sm-4 mt-3">
+                <input type="checkbox" name="priorityFilterFlag" [(ngModel)]="statusFilterEnable" 
+                [checked]="statusFilterEnable" id="priorityFlag" class="form-check-input my-auto mx-2">
+                <div class="d-flex flex-column my-auto mx-2">
+                    <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Priority </h6>
+                    <select [disabled]="!statusFilterEnable" class="form-select" name="filterByStatus" 
+                    (change)="filterTaskByStatus($event.target)" id="status" [(ngModel)]="statusState">
+                        <option [value]="statusItem.id" 
+                        *ngFor="let statusItem of statusList" >
+                            {{statusItem.label}}
+                        </option>
+                    </select>
+                </div>
             </div>
-            <input type="checkbox" name="statusFilterFlag"  [(ngModel)]="priorityFilterEnable"
-            [checked]="priorityFilterEnable" id="priorityFlag" id="statusFlag" class="form-check-input my-auto mx-2">
-            <div class="d-flex flex-column my-auto mx-2">
-                <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Status </h6>
-                <select [disabled]="!priorityFilterEnable" class="form-select" name="filterByPriority" 
-                (change)="filterTaskByPriority($event.target)" id="priority" [(ngModel)]="priorityState">
-                    <option [value]="priorityItem.id" 
-                    *ngFor="let priorityItem of priorityList" >
-                    {{priorityItem.label}}</option>
-                </select>
+            <div class="col-sm-4 mt-3">
+                <input type="checkbox" name="statusFilterFlag"  [(ngModel)]="priorityFilterEnable"
+                [checked]="priorityFilterEnable" id="priorityFlag" id="statusFlag" class="form-check-input my-auto mx-2">
+                <div class="d-flex flex-column my-auto mx-2">
+                    <h6 class="align-self-start px-1 mb-1 mt-2">Filter Tasks by Status </h6>
+                    <select [disabled]="!priorityFilterEnable" class="form-select" name="filterByPriority" 
+                    (change)="filterTaskByPriority($event.target)" id="priority" [(ngModel)]="priorityState">
+                        <option [value]="priorityItem.id" 
+                        *ngFor="let priorityItem of priorityList" >
+                        {{priorityItem.label}}</option>
+                    </select>
+                </div>
             </div>
-            <button type="button" class="btn btn-primary m-auto" (click)="reset()">Reset data</button>
-            <button type="button" class="btn btn-primary m-auto" (click)="filterIncompleteTasks()">Show incomplete tasks</button>
+            <div class="col-sm-4 mt-3">
+                <button type="button" class="btn btn-primary m-3" (click)="reset()">Reset data</button>
+                <button type="button" class="btn btn-primary m-3" (click)="filterIncompleteTasks()">Show incomplete tasks</button>
+            </div>
         </div>
         <div class="d-flex flex-column align-items-center">
             <h6 class="align-self-start px-1 mb-1 mt-2">Search Task </h6>

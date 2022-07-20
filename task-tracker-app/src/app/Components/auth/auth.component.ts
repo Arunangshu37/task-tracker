@@ -10,9 +10,12 @@ import { ProfileApiService } from 'src/app/Shared/profile-api.service';
 })
 export class AuthComponent implements OnInit {
 
+  loading:string = "none";
+  isBtnDisabled :boolean  =false;
   message : string = "";
   messageType : string ="";
   profile: Profile =new Profile();
+  annonymousEmail: string = "";
   constructor(private profileApi : ProfileApiService, private router: Router) {
     let message = this.router.getCurrentNavigation()?.extras?.state?.['message'];
     let messageType = this.router.getCurrentNavigation()?.extras?.state?.['messageType'];
@@ -38,5 +41,25 @@ export class AuthComponent implements OnInit {
         this.messageType = "error";
       }
     })
+  }
+
+  retrievePassord(){
+    if(this.annonymousEmail!="")
+    {
+      const data = {
+        annonymousEmail : this.annonymousEmail
+      }
+
+      this.loading = "inline-block";
+      this.isBtnDisabled =true;
+      this.profileApi.retrievePassword(data).subscribe((response:any)=>{
+        this.loading = "none";
+        this.isBtnDisabled = false;
+        alert(response.message);
+      })
+    }
+    else{
+      alert("Enter email id first");
+    }
   }
 }

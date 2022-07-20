@@ -156,7 +156,7 @@ class Task{
         }
         catch(Throwable $exception)
         {
-            return array("responseCode"=>500, "message"=>"There was an exception while processing task creation. ".$exception);
+            return array("responseCode"=>500, "message"=>"There was an exception while processing task deletion. ".$exception);
         }
     }
 

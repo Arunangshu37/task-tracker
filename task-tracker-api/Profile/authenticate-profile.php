@@ -1,12 +1,12 @@
 <?php
 
 include_once("../config.php");
-include_once("../Connection.php");
+include_once("../DbConnection.php");
 include_once("Profile.php");
 
 if($_SERVER["REQUEST_METHOD"]=="POST")
 {
-    $conn = new Connection($ENVIRONMENT);
+    $conn = new DbConnection($ENVIRONMENT);
     $profile =new Profile($conn->get_connection());
     $data = json_decode(file_get_contents("php://input"));
     $profile->email = $data->email;

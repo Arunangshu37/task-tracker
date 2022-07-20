@@ -26,14 +26,14 @@ export class MarkerApiService {
         markerId : markerId
       }
     }
-    return this.http.delete(environment.baseUrl+"task-tracker-api/Marker/delete-marker.php", options).pipe(
+    return this.http.post(environment.baseUrl+"task-tracker-api/Marker/delete-marker.php", options).pipe(
       map((response)=>{
         return response;
       })
     );
   }
   updateMarkerInfo(data:any){
-    return this.http.put(environment.baseUrl+"task-tracker-api/Marker/update-marker.php", data).pipe(
+    return this.http.post(environment.baseUrl+"task-tracker-api/Marker/update-marker.php", data).pipe(
       map((response)=>{
         return response;
       })

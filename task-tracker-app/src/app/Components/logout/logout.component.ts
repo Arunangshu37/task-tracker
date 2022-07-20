@@ -10,6 +10,9 @@ import { ProfileApiService } from 'src/app/Shared/profile-api.service';
 export class LogoutComponent implements OnInit {
 
   constructor(private profileApi : ProfileApiService, private router:Router) {
+  }
+
+  ngOnInit(): void {
     this.profileApi.logout().subscribe((response:any)=>{
       if(response.responseCode == 200){
         console.log(response);
@@ -30,9 +33,6 @@ export class LogoutComponent implements OnInit {
       }
       
     });
-  }
-
-  ngOnInit(): void {
   }
 
 }
