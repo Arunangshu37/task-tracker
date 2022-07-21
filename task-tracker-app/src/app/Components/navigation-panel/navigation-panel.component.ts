@@ -14,7 +14,15 @@ export class NavigationPanelComponent implements OnInit {
   userName  : string = "";
   constructor(private router:Router, private profileApi : ProfileApiService) { 
   this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
-    this.imagePath =environment.baseUrl +"task-tracker-api/"+ response.profileInfo.imagePath;
+    if( response.profileInfo.imagePath!="")
+    {
+
+      this.imagePath =environment.baseUrl +"task-tracker-api/"+ response.profileInfo.imagePath;
+    }
+    else
+    {
+      this.imagePath = "assets/default-profile-image.jpg";
+    }
     this.userName = response.profileInfo.firstName +" "+ response.profileInfo.lastName;
   });
   }

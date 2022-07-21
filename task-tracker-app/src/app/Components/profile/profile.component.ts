@@ -22,12 +22,24 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
       console.log(response);
-      this.profileData = response.responseCode == 200 ? response.profileInfo : null;
-      if(this.profileData!=null){
-        this.profileData.imagePath =environment.baseUrl+"task-tracker-api/"+this.profileData.imagePath
+      this.profileData = response.responseCode == 200 ? response.profileInfo : new Profile();
+      if(this.profileData.id!=0){
+        if(this.profileData.imagePath=="")
+        {
+          this.profileData.imagePath = new Profile().imagePath;
+        }
+        else{
+          this.profileData.imagePath =environment.baseUrl+"task-tracker-api/"+this.profileData.imagePath
+        }
         console.log(this.image);
+      }else{
+        this.changePasswordInputBoxDisabled =false;
+        console.log("okay");
       }
+      
       this.profileData.token ="0";
+      
+      
     });
   }
   setPasswodChange(){
@@ -56,7 +68,7 @@ export class ProfileComponent implements OnInit {
      
     }
   }
-  processProfileUpdate(){
+  processProfileSave(){
   
  
     this.formData.append("firstName", this.profileData.firstName);
@@ -64,13 +76,18 @@ export class ProfileComponent implements OnInit {
     this.formData.append("email", this.profileData.email);
     this.formData.append("token", this.profileData.token);
     this.formData.append("password", this.profileData.password);
+    if(this.tempPassword=="")
+    {
+      this.profileData.password = "";
+    }
     if(this.tempPassword != this.profileData.password)
     {
       alert("Retyped password does not match with typed password!");
+      console.log(this.tempPassword, this.profileData.password, "hello");
       return; 
     }
 
-    this.profileApi.updateProfileInfo(this.formData).subscribe((response:any)=>{
+    this.profileApi.saveProfileInfo(this.formData).subscribe((response:any)=>{
       try{
         let jsonResponse = JSON.parse(response);
         alert(jsonResponse.message);   

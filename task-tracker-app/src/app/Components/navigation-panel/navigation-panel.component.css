@@ -10,7 +10,7 @@
 @media only screen and (max-width: 991px){
     #nav-panel{
         position: absolute;
-        left:-100%;
+        left:-120%;
         height: 100vh;
         top:50px;
         width:100%;

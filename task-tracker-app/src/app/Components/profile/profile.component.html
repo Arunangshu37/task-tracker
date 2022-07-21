@@ -1,9 +1,9 @@
-<form class="needs-validation " novalidate="" style="height: 600px; overflow-y:auto" (submit)="processProfileUpdate()">
+<form class="needs-validation " novalidate="" style="height: 600px; overflow-y:auto" (submit)="processProfileSave()" [ngClass]="{'new-profile-form': profileData.id==0}">
     <h2>Profile</h2>
     <div class="row g-0">
        
         <div class="col-sm-7 p-3">
-            <img style="width: 200px;" id="img" name="profileImageDisplay"  [src]="profileData.imagePath" 
+            <img style="width: 200px;" id="img" name="profileImageDisplay"  [src]="profileData.imagePath"
             class="img-thumbnail" alt="profile image" />
             <div class="mb-3">
                 <label for="image" class="form-label">Profile Image</label>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-7 p-3">
-            <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+            <label for="email" class="form-label">Email</label>
             <input [(ngModel)]="profileData.email" name="email" 
             type="email" class="form-control" id="email" placeholder="you@example.com">
             <div class="invalid-feedback">
@@ -38,12 +38,14 @@
             </div>
         </div>
 
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" [checked]="changePassword" name="changePassword" [(ngModel)]="changePassword" id="flexCheckDefault" (change)="setPasswodChange()">
-            <label class="form-check-label" for="flexCheckDefault">
-              Change Password
-            </label>
-        </div>
+        <ng-container *ngIf="profileData.id!=0 ">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" [checked]="changePassword" name="changePassword" [(ngModel)]="changePassword" id="flexCheckDefault" (change)="setPasswodChange()">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Change Password
+                </label>
+            </div>
+        </ng-container>
         <div class="col-sm-6 p-3">
             <div class="form-floating mb-3">
                 <input type="password" [disabled]="changePasswordInputBoxDisabled" class="form-control" id="password" [(ngModel)]="profileData.password" name="password" placeholder="Password">

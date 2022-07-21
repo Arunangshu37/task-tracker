@@ -23,6 +23,8 @@ export class MarkerComponent implements OnInit {
       if(response.responseCode == 200){
         this.markerList = response.markers;
         this.backUpList = response.markers;
+      }else{
+        this.markerList = [];
       } 
     });
   }
@@ -39,8 +41,8 @@ export class MarkerComponent implements OnInit {
     if(confirm("Are you sure you want to delete this marker?"))
     {
       this.markerApi.removeMarker(id).subscribe((response:any)=>{
-        this.getMarkers();
         alert(response.message);
+        this.getMarkers();
       })
     }
    

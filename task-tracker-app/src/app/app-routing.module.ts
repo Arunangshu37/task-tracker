@@ -28,6 +28,7 @@ const routes: Routes = [
     ]
   },
   { path: "login", component: AuthComponent},
+  { path: "signup", component: ProfileComponent},
   { path: "about", component: AboutComponent },
   { path: "logout", component: LogoutComponent }
 ];

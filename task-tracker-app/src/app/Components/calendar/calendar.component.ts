@@ -68,6 +68,7 @@ export class CalendarComponent implements OnInit {
       if(this.calendar == null ){
         alert(response.message);
       }
+       console.log(this.markedDays);
     })
   }
 
@@ -101,6 +102,7 @@ export class CalendarComponent implements OnInit {
     // get the markers for this day from database
     this.calendarApi.getMarkedDates(date).subscribe((response:any)=>{
       this.markedDates = response.markedDates;
+     
     });
     
   }

@@ -56,28 +56,30 @@ nextLabel="Next"></pagination-controls>
             </tr>
         </thead>
         <tbody>
+           <ng-container *ngIf="markerList!=[]">
             <tr *ngFor="let marker of markerList | paginate :{ 
-            itemsPerPage: 5,
-            currentPage: page } ">
-                <td>{{marker.id}}</td>
-                <td>{{marker.name}}</td>
-                <td>{{marker.description}}</td>
-                <td>
-                    <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':marker.ink}"> </span>
-                </td>
-    
-                <td>
-                    <button type="button" class="btn btn-secondary bg-light" data-bs-toggle="modal"
-                        data-bs-target="#markerForm" (click)="setData(marker)">
-                        <i style="color: orange;" class="bi bi-pen-fill"></i>
-                    </button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-secondary bg-light" (click)="deleteMarker(marker.id)">
-                        <i style="color: rgb(203, 38, 38);" class="bi bi-trash3-fill"></i>
-                    </button>
-                </td>
-            </tr>
+                itemsPerPage: 5,
+                currentPage: page } ">
+                    <td>{{marker.id}}</td>
+                    <td>{{marker.name}}</td>
+                    <td>{{marker.description}}</td>
+                    <td>
+                        <span style="border-radius: 5px; margin: auto; display:block; height:20px; width:50px;" [ngStyle]="{'background-color':marker.ink}"> </span>
+                    </td>
+        
+                    <td>
+                        <button type="button" class="btn btn-secondary bg-light" data-bs-toggle="modal"
+                            data-bs-target="#markerForm" (click)="setData(marker)">
+                            <i style="color: orange;" class="bi bi-pen-fill"></i>
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-secondary bg-light" (click)="deleteMarker(marker.id)">
+                            <i style="color: rgb(203, 38, 38);" class="bi bi-trash3-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+           </ng-container>
         </tbody>
     </table>
 </div>

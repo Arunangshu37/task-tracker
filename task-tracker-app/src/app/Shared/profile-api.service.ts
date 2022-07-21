@@ -41,9 +41,9 @@ export class ProfileApiService {
     );
   }
 
-  updateProfileInfo(profile:any){
+  saveProfileInfo(profile:any){
     const headers = new HttpHeaders().set('Content-Type', []);
-    return this.http.post(environment.baseUrl+"task-tracker-api/Profile/update-profile-info.php", profile,{headers, responseType:"text"}).pipe(
+    return this.http.post(environment.baseUrl+"task-tracker-api/Profile/save-profile-info.php", profile,{headers, responseType:"text"}).pipe(
       map((response)=>{
         return response;
       })

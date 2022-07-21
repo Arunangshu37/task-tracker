@@ -1,0 +1,9 @@
+.new-profile-form{
+    width: 75vw;
+}
+@media only screen and (max-width:991px){
+    
+    .new-profile-form{
+        width: 100%;
+    }
+}
