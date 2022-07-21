@@ -4,10 +4,11 @@ class CalendarV2{
     private $month;
     private $year;
     private $conn;
+    private $profileId =1;
 
     public $date;
 
-    function __construct($month, $year, $conn)
+    function __construct($month, $year, $conn, $profileId)
     {
         if(is_numeric($month) && is_numeric($year))
         {
@@ -20,6 +21,7 @@ class CalendarV2{
             $this->year = date("Y");
         }
         $this->conn = $conn;
+        $this->profileId = $profileId;
     }
 
     private function printData($data)
@@ -81,9 +83,9 @@ class CalendarV2{
 
     function get_marked_dates_of_month_and_year(){
         try{
-            $query = "SELECT `marked_date`.id, `marker`.`name`, `marker`.`ink` , DAY(`marked_date`.`date`) as day FROM `marked_date`, `marker` WHERE `marked_date`.`markerId` =`marker`.`id` AND MONTH(`marked_date`.`date`)= ? AND YEAR(`marked_date`.`date`) = ?";
+            $query = "SELECT `marked_date`.id, `marker`.`name`, `marker`.`ink` , DAY(`marked_date`.`date`) as day FROM `marked_date`, `marker` WHERE `marked_date`.`markerId` =`marker`.`id` AND MONTH(`marked_date`.`date`)= ? AND YEAR(`marked_date`.`date`) = ? AND `marked_date`.`profileId` = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("ii", $this->month, $this->year);
+            $stmt->bind_param("iii", $this->month, $this->year, $this->profileId);
             $stmt->execute();
             $markedDays=array();
             $result = $stmt->get_result();
@@ -110,9 +112,9 @@ class CalendarV2{
             $query = "SELECT `marked_date`.`date` AS `date`, `marked_date`.`id` AS `id`  , `marker`.`name` AS `name`, `marker`.`ink` AS `ink` "
             ." FROM `marked_date`, `marker`"
             ." WHERE `marked_date`.`markerId` = `marker`.`id`"
-            ." AND `marked_date`.`date` = ?";
+            ." AND `marked_date`.`date` = ? AND `marked_date`.`profileId` = ? ";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("s", $this->date);
+            $stmt->bind_param("si", $this->date, $this->profileId);
             $stmt->execute();
             $result = $stmt->get_result();
             $markedDates = array();
@@ -138,9 +140,9 @@ class CalendarV2{
     function mark_date($date, $instanceId){
         try
         {
-            $query = "INSERT INTO `marked_date` ( `date`, `markerId`) VALUES(?,?)";
+            $query = "INSERT INTO `marked_date` ( `date`, `markerId`, `profileId`) VALUES(?,?,?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("si",$date,$instanceId);
+            $stmt->bind_param("sii",$date,$instanceId, $this->profileId);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"Date has been marked");

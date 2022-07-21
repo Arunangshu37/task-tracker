@@ -10,7 +10,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
         echo json_encode(array("responseCode"=>401, "message"=> "No user is logged in at present. Please login to access this page"));
     }
     else{
-        $calendar = new CalendarV2(null, null, $conn->get_connection());
+        $calendar = new CalendarV2(null, null, $conn->get_connection(),$_SESSION['profile']);
         $data = json_decode(file_get_contents("php://input"));
         echo json_encode($calendar->remove_marker_from_date($data->body->instanceId));
     }

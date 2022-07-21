@@ -2,22 +2,24 @@
 class Marker{
     private $conn;
     public $id = 0;
+    public $profileId = 0;
     public $name = "";
     public $ink = "";
     public $description = "";
 
-    public function __construct($conn)
+    public function __construct($conn, $profileId)
     {
         $this->conn = $conn;
+        $this->$profileId = $profileId;
     }
 
     public function get_all_markers()
     {
         try
         {
-            $query = "SELECT `id`, `name`, `description`, `ink` FROM `marker`";
+            $query = "SELECT `id`, `name`, `description`, `ink` FROM `marker` WHERE `profileId`=?";
             $stmt = $this->conn->prepare($query);
-           
+            $stmt->bind_param("i", $this->profileId);
             $stmt->execute();
             $result = $stmt->get_result();
             $markers = array();
@@ -45,9 +47,9 @@ class Marker{
     {
         try
         {
-            $query = "INSERT INTO `marker` ( `name`, `description`, `ink`) VALUES(?,?,?)";
+            $query = "INSERT INTO `marker` ( `name`, `description`, `ink`, `profileID`) VALUES(?,?,?,?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("sss",$this->name, $this->description, $this->ink);
+            $stmt->bind_param("sssi",$this->name, $this->description, $this->ink, $this->profileId);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"marker created!");
@@ -67,9 +69,9 @@ class Marker{
     {
         try
         {
-            $query = "UPDATE `marker` SET  `name` = ? , `description` = ?, `ink` = ?  WHERE `id` = ? ";
+            $query = "UPDATE `marker` SET  `name` = ? , `description` = ?, `ink` = ?  WHERE `id` = ? AND `profileId`=? ";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("sssi",$this->name, $this->description, $this->ink, $this->id);
+            $stmt->bind_param("sssii",$this->name, $this->description, $this->ink, $this->id, $this->profileId);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"marker updated successfully!");
@@ -89,9 +91,9 @@ class Marker{
     {
         try
         {
-            $query = "DELETE FROM  `marker` WHERE `id` =  ?";
+            $query = "DELETE FROM  `marker` WHERE `id` =  ? AND `profileId` = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->bind_param("i",$this->id);
+            $stmt->bind_param("ii",$this->id, $this->profileId);
             if($stmt->execute())
             {
                 return array("responseCode"=>200, "message"=>"marker deleted");

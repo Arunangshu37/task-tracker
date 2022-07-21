@@ -71,7 +71,7 @@ class Profile{
         }
     }
 
-    function update_profile_info()
+    function save_profile_info()
     {
         try
         {
@@ -83,14 +83,15 @@ class Profile{
             if($result->num_rows  > 0)
             {
                 $row  = $result->fetch_assoc();
+                $this->imagePath = $row['imagePath'];
             }
-            $this->imagePath = $row['imagePath'];
+
 
             if($this->image!=null)
             {
                 
                 $fileUploadResponse = array();
-                $fileUploadResponse = $this->try_upload_file($this->image,$row["imagePath"]);
+                $fileUploadResponse = $this->try_upload_file($this->image,$this->imagePath);
                 if($fileUploadResponse["fileUploadStatus"] !=200)
                 {
                     return array("responseCode"=>500, "message"=>"File upload ws not successfull : ".$fileUploadResponse["message"]);
@@ -113,9 +114,18 @@ class Profile{
             }
             else
             {
-                $query="UPDATE `profile` SET `firstName` =  ? ,`lastName` =  ? , `email`= ?, `imagePath` = ? WHERE `id` = ? ";
-                $stmt = $this->conn->prepare($query);
-                $stmt->bind_param("ssssi", $this->firstName, $this->lastName, $this->email, $this->imagePath, $this->id);
+               if($this->id!=0)
+               {
+                    $query="UPDATE `profile` SET `firstName` =  ? ,`lastName` =  ? , `email`= ?, `imagePath` = ? WHERE `id` = ? ";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->bind_param("ssssi", $this->firstName, $this->lastName, $this->email, $this->imagePath, $this->id);
+               }
+               else
+               {
+                    $query="INSERT INTO `profile`(`firstName` ,`lastName`, `email`, `imagePath`, `password` ) VALUES(?,?,?,?,?)";
+                    $stmt = $this->conn->prepare($query);
+                    $stmt->bind_param("sssss", $this->firstName, $this->lastName, $this->email, $this->imagePath, $this->password);
+               }
             }
             if($stmt->execute())
             {
@@ -139,18 +149,21 @@ class Profile{
         $fileNameArray = explode(".", $image['name']);
         $fileExtension = strtolower(end($fileNameArray));
         $allowedExtension = array("jpg", "jpeg", "png");
-        $fileSize = (int)$image['size'];
         if(!in_array($fileExtension, $allowedExtension))
         {
             return array("fileUploadStatus"=>500, "message"=>"File extension is not allowed. ");
         }
       
         $fileNewName = uniqid('', true).".".$fileExtension;
-        unlink("../".$previosImage);
+        if($previosImage)
+        {
+            unlink("../".$previosImage);
+        }
         $destination = "../Profile/ProfileImages/".$fileNewName;
         move_uploaded_file($image['tmp_name'], $destination);
         return array("fileUploadStatus"=>200, "message"=> "File was uploaded successfully", "imagePath"=>substr($destination, 3,strlen($destination)));
     }
+
 
  
 

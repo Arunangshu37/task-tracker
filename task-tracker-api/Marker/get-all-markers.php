@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"]=="GET")
         echo json_encode(array("responseCode"=>401, "message"=> "No user is logged in at present. Please login to access this page"));
     }
     else{
-        $marker = new Marker($conn->get_connection());
+        $marker = new Marker($conn->get_connection(), $_SESSION['profile']);
         echo json_encode($marker->get_all_markers());
     }
 }

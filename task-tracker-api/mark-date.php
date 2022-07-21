@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
     }
     else{
 
-        $calendar = new CalendarV2(null, null,$conn->get_connection());
+        $calendar = new CalendarV2(null, null,$conn->get_connection(), $_SESSION['profile']);
         $data = json_decode(file_get_contents("php://input"));
         echo json_encode($calendar->mark_date($data->date,$data->markerId));
     }

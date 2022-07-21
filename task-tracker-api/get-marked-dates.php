@@ -11,7 +11,7 @@ if($_SERVER["REQUEST_METHOD"]=="GET")
         echo json_encode(array("responseCode"=>401, "message"=> "No user is logged in at present. Please login to access this page"));
     }
     else{
-        $calendar = new CalendarV2(null, null,$conn->get_connection());
+        $calendar = new CalendarV2(null, null,$conn->get_connection(),$_SESSION['profile']);
         $date = $_GET['date'];
         $calendar->date = $date;
         echo json_encode($calendar->get_marked_dates());
