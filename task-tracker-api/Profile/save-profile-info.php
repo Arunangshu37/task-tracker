@@ -6,16 +6,13 @@ if($_SERVER['REQUEST_METHOD']=="POST")
 {
     $conn = new DbConnection($ENVIRONMENT);
     $profile = new Profile($conn->get_connection());
-    $profile->id  = isset($_SESSION["profile"]) ? $_SESSION["profile"] : 0;
+    $profile->id  = $_POST['profileId'];
     $profile->firstName  = $_POST['firstName'];
     $profile->lastName  =  $_POST['lastName'];
     $profile->email  = $_POST['email'];
     $profile->token =  $_POST['token'];
     $profile->image =  isset($_FILES['image']) ? $_FILES['image'] : null;
-    if($profile->token == "1")
-    {
-        $profile->password = $_POST['password'];
-    } 
+    $profile->password = $_POST['password'];
     echo json_encode($profile->save_profile_info());
     
 

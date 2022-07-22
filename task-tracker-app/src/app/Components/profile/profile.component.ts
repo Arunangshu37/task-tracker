@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Profile } from 'src/app/Models/Profile';
 import { ProfileApiService } from 'src/app/Shared/profile-api.service';
 import { environment } from 'src/environments/environment';
@@ -17,30 +18,40 @@ export class ProfileComponent implements OnInit {
   image : any;
   profileData: Profile =new Profile();
   formData :any = new FormData();
-  constructor(private profileApi : ProfileApiService) { }
+  constructor(private profileApi : ProfileApiService, private router:Router) {
+
+    console.log(this.router.url);
+    
+  }
 
   ngOnInit(): void {
-    this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
-      console.log(response);
-      this.profileData = response.responseCode == 200 ? response.profileInfo : new Profile();
-      if(this.profileData.id!=0){
-        if(this.profileData.imagePath=="")
-        {
-          this.profileData.imagePath = new Profile().imagePath;
+    if(this.router.url=="/signup")
+    {
+      this.changePasswordInputBoxDisabled =false;
+      this.profileData= new Profile();
+    }  
+    else{
+      
+      this.profileApi.getCurrentProfileInformation().subscribe((response:any)=>{
+        console.log(response);
+        this.profileData = response.responseCode == 200 ? response.profileInfo : new Profile();
+        if(this.profileData.id!=0){
+          if(this.profileData.imagePath=="")
+          {
+            this.profileData.imagePath = new Profile().imagePath;
+          }
+          else{
+            this.profileData.imagePath =environment.baseUrl+"task-tracker-api/"+this.profileData.imagePath
+          }
+          console.log(this.image);
+        }else{
+         
+          console.log("no profile found in session");
         }
-        else{
-          this.profileData.imagePath =environment.baseUrl+"task-tracker-api/"+this.profileData.imagePath
-        }
-        console.log(this.image);
-      }else{
-        this.changePasswordInputBoxDisabled =false;
-        console.log("okay");
-      }
-      
-      this.profileData.token ="0";
-      
-      
-    });
+        
+        this.profileData.token ="0";
+      });
+    }
   }
   setPasswodChange(){
     this.changePassword = !this.changePassword ;
@@ -69,13 +80,6 @@ export class ProfileComponent implements OnInit {
     }
   }
   processProfileSave(){
-  
- 
-    this.formData.append("firstName", this.profileData.firstName);
-    this.formData.append("lastName", this.profileData.lastName);
-    this.formData.append("email", this.profileData.email);
-    this.formData.append("token", this.profileData.token);
-    this.formData.append("password", this.profileData.password);
     if(this.tempPassword=="")
     {
       this.profileData.password = "";
@@ -86,6 +90,14 @@ export class ProfileComponent implements OnInit {
       console.log(this.tempPassword, this.profileData.password, "hello");
       return; 
     }
+ 
+    this.formData.append("firstName", this.profileData.firstName);
+    this.formData.append("lastName", this.profileData.lastName);
+    this.formData.append("email", this.profileData.email);
+    this.formData.append("token", this.profileData.token);
+    this.formData.append("password", this.profileData.password);
+    this.formData.append("profileId", this.profileData.id);
+ 
 
     this.profileApi.saveProfileInfo(this.formData).subscribe((response:any)=>{
       try{
